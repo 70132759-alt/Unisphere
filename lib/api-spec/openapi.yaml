@@ -1,0 +1,829 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Unisphere API
+servers:
+  - url: /api
+    description: Base API path
+
+tags:
+  - name: health
+  - name: users
+  - name: posts
+  - name: societies
+  - name: events
+  - name: jobs
+  - name: messages
+  - name: notifications
+  - name: misc
+  - name: search
+  - name: Storage
+    description: Object storage upload and serving endpoints.
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HealthStatus" }
+
+  /users/me:
+    get:
+      operationId: getCurrentUser
+      tags: [users]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+    patch:
+      operationId: updateCurrentUser
+      tags: [users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateUserRequest" }
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+
+  /users/suggestions:
+    get:
+      operationId: getUserSuggestions
+      tags: [users]
+      responses:
+        "200":
+          description: Suggested users to follow
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/UserSuggestion" }
+
+  /users/{id}:
+    get:
+      operationId: getUserById
+      tags: [users]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+
+  /users/{id}/follow:
+    post:
+      operationId: followUser
+      tags: [users]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OkResponse" }
+    delete:
+      operationId: unfollowUser
+      tags: [users]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OkResponse" }
+
+  /posts:
+    get:
+      operationId: getPosts
+      tags: [posts]
+      responses:
+        "200":
+          description: Posts feed
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Post" }
+    post:
+      operationId: createPost
+      tags: [posts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreatePostRequest" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Post" }
+
+  /posts/{id}:
+    delete:
+      operationId: deletePost
+      tags: [posts]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OkResponse" }
+
+  /stories/{id}:
+    delete:
+      operationId: deleteStory
+      tags: [misc]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OkResponse" }
+
+  /posts/{id}/like:
+    post:
+      operationId: likePost
+      tags: [posts]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Post" }
+    delete:
+      operationId: unlikePost
+      tags: [posts]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Post" }
+
+  /posts/{id}/comments:
+    post:
+      operationId: createComment
+      tags: [posts]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateCommentRequest" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Comment" }
+
+  /societies:
+    get:
+      operationId: getSocieties
+      tags: [societies]
+      responses:
+        "200":
+          description: All societies
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Society" }
+
+  /societies/{id}/join:
+    post:
+      operationId: joinSociety
+      tags: [societies]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Society" }
+    delete:
+      operationId: leaveSociety
+      tags: [societies]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Society" }
+
+  /events:
+    get:
+      operationId: getEvents
+      tags: [events]
+      responses:
+        "200":
+          description: All events
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Event" }
+
+  /events/{id}/rsvp:
+    post:
+      operationId: rsvpEvent
+      tags: [events]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Event" }
+    delete:
+      operationId: unrsvpEvent
+      tags: [events]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Event" }
+
+  /jobs:
+    get:
+      operationId: getJobs
+      tags: [jobs]
+      responses:
+        "200":
+          description: All jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Job" }
+
+  /jobs/{id}/save:
+    post:
+      operationId: saveJob
+      tags: [jobs]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+    delete:
+      operationId: unsaveJob
+      tags: [jobs]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+
+  /messages/contacts:
+    get:
+      operationId: getChatContacts
+      tags: [messages]
+      responses:
+        "200":
+          description: Chat contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ChatContact" }
+
+  /messages/{userId}:
+    get:
+      operationId: getMessages
+      tags: [messages]
+      parameters:
+        - { name: userId, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: Messages with user
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Message" }
+
+  /messages:
+    post:
+      operationId: sendMessage
+      tags: [messages]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SendMessageRequest" }
+      responses:
+        "201":
+          description: Sent
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Message" }
+
+  /notifications:
+    get:
+      operationId: getNotifications
+      tags: [notifications]
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Notification" }
+
+  /notifications/read-all:
+    post:
+      operationId: markAllNotificationsRead
+      tags: [notifications]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OkResponse" }
+
+  /stories:
+    get:
+      operationId: getStories
+      tags: [misc]
+      responses:
+        "200":
+          description: Stories
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Story" }
+    post:
+      operationId: createStory
+      tags: [misc]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateStoryRequest" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Story" }
+
+  /search:
+    get:
+      operationId: search
+      tags: [search]
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SearchResults" }
+
+  /buildings:
+    get:
+      operationId: getBuildings
+      tags: [misc]
+      responses:
+        "200":
+          description: Campus buildings
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Building" }
+
+  /trending:
+    get:
+      operationId: getTrending
+      tags: [misc]
+      responses:
+        "200":
+          description: Trending topics
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/TrendingTopic" }
+
+  /storage/uploads/request-url:
+    post:
+      tags: [Storage]
+      operationId: requestUploadUrl
+      summary: Request a presigned URL for file upload
+      description: |
+        Returns a presigned GCS URL for direct upload. The client sends JSON
+        metadata here, then uploads the file directly to the returned URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlRequest'
+      responses:
+        '200':
+          description: Presigned upload URL generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+        '400':
+          description: Missing or invalid required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '500':
+          description: Failed to generate upload URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+  /storage/public-objects/{filePath}:
+    get:
+      tags: [Storage]
+      operationId: getPublicObject
+      summary: Serve a public asset from PUBLIC_OBJECT_SEARCH_PATHS
+      description: |
+        Unconditionally public — no authentication or ACL checks.
+        Searches PUBLIC_OBJECT_SEARCH_PATHS for the given file path.
+      parameters:
+        - name: filePath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Relative file path within the public search paths.
+      responses:
+        '200':
+          description: Object content streamed with correct Content-Type.
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '500':
+          description: Failed to serve public object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+  /storage/objects/{objectPath}:
+    get:
+      tags: [Storage]
+      operationId: getStorageObject
+      summary: Serve an object entity from PRIVATE_OBJECT_DIR
+      description: |
+        Serves object entities uploaded via presigned URLs. These can optionally
+        be protected with authentication or ACL checks based on the use case.
+      parameters:
+        - name: objectPath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Object path within the private object dir (e.g. `uploads/some-uuid`).
+      responses:
+        '200':
+          description: Object content streamed with correct Content-Type.
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Object not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '500':
+          description: Failed to serve object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+
+    OkResponse:
+      type: object
+      required: [ok]
+      properties:
+        ok: { type: boolean }
+
+    User:
+      type: object
+      required: [id, username, name, email, major, avatar, cover, bio, tags, followersCount, followingCount, postsCount]
+      properties:
+        id: { type: integer }
+        username: { type: string }
+        name: { type: string }
+        email: { type: string }
+        major: { type: string }
+        avatar: { type: string }
+        cover: { type: string }
+        bio: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        followersCount: { type: integer }
+        followingCount: { type: integer }
+        postsCount: { type: integer }
+        createdAt: { type: string }
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        name: { type: string }
+        major: { type: string }
+        avatar: { type: string }
+        cover: { type: string }
+        bio: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+
+    UserSuggestion:
+      type: object
+      required: [id, name, major, avatar, isFollowing]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        major: { type: string }
+        avatar: { type: string }
+        isFollowing: { type: boolean }
+
+    Comment:
+      type: object
+      required: [id, postId, author, avatar, text, time]
+      properties:
+        id: { type: integer }
+        postId: { type: integer }
+        author: { type: string }
+        avatar: { type: string }
+        text: { type: string }
+        time: { type: string }
+
+    Post:
+      type: object
+      required: [id, author, major, avatar, content, hashtags, likes, comments, isLiked, isOwn, commentList]
+      properties:
+        id: { type: integer }
+        author: { type: string }
+        major: { type: string }
+        avatar: { type: string }
+        content: { type: string }
+        hashtags: { type: string }
+        image: { type: string, nullable: true }
+        likes: { type: integer }
+        comments: { type: integer }
+        isLiked: { type: boolean }
+        isOwn: { type: boolean }
+        commentList:
+          type: array
+          items: { $ref: "#/components/schemas/Comment" }
+
+    CreatePostRequest:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string }
+        hashtags: { type: string }
+        image: { type: string, nullable: true }
+
+    CreateCommentRequest:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string }
+
+    Society:
+      type: object
+      required: [id, name, desc, icon, members, joined]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        desc: { type: string }
+        icon: { type: string }
+        members: { type: integer }
+        joined: { type: boolean }
+
+    Event:
+      type: object
+      required: [id, name, date, location, image, category, attendees, rsvp]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        date: { type: string }
+        location: { type: string }
+        image: { type: string }
+        category: { type: string }
+        attendees: { type: integer }
+        rsvp: { type: boolean }
+
+    Job:
+      type: object
+      required: [id, title, company, location, type, salary, tags, logo, saved]
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        company: { type: string }
+        location: { type: string }
+        type: { type: string }
+        salary: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        logo: { type: string }
+        saved: { type: boolean }
+
+    ChatContact:
+      type: object
+      required: [id, name, avatar, lastMsg, time, online, unread]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        avatar: { type: string }
+        lastMsg: { type: string }
+        time: { type: string }
+        online: { type: boolean }
+        unread: { type: integer }
+
+    Message:
+      type: object
+      required: [id, type, isAttachment]
+      properties:
+        id: { type: integer }
+        type: { type: string, description: "'sent' or 'received'" }
+        text: { type: string }
+        isAttachment: { type: boolean }
+        image: { type: string, nullable: true }
+        filename: { type: string, nullable: true }
+
+    SendMessageRequest:
+      type: object
+      required: [receiverId, text]
+      properties:
+        receiverId: { type: integer }
+        text: { type: string }
+
+    Notification:
+      type: object
+      required: [id, type, icon, color, user, action, detail, time, avatar, read]
+      properties:
+        id: { type: integer }
+        type: { type: string }
+        icon: { type: string }
+        color: { type: string }
+        user: { type: string }
+        action: { type: string }
+        detail: { type: string }
+        time: { type: string }
+        avatar: { type: string }
+        read: { type: boolean }
+
+    Story:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        image: { type: string, nullable: true }
+        isAdd: { type: boolean }
+        isOwn: { type: boolean }
+        createdAt: { type: string }
+
+    Building:
+      type: object
+      required: [id, name, hours, icon, x, y, color, mapsUrl]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        hours: { type: string }
+        icon: { type: string }
+        x: { type: number }
+        y: { type: number }
+        color: { type: string }
+        mapsUrl: { type: string }
+
+    TrendingTopic:
+      type: object
+      required: [rank, title, posts]
+      properties:
+        rank: { type: integer }
+        title: { type: string }
+        posts: { type: string }
+
+    CreateStoryRequest:
+      type: object
+      required: [image]
+      properties:
+        name: { type: string }
+        image: { type: string }
+
+    SearchResults:
+      type: object
+      required: [users, posts, societies]
+      properties:
+        users:
+          type: array
+          items: { $ref: "#/components/schemas/UserSuggestion" }
+        posts:
+          type: array
+          items: { $ref: "#/components/schemas/Post" }
+        societies:
+          type: array
+          items: { $ref: "#/components/schemas/Society" }
+
+    UploadUrlRequest:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Original file name.
+        size:
+          type: integer
+          minimum: 1
+          description: File size in bytes.
+        contentType:
+          type: string
+          minLength: 1
+          description: MIME type of the file (e.g. `image/jpeg`).
+    UploadUrlResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:
+          type: string
+          format: uri
+          description: Presigned GCS URL for PUT upload.
+        objectPath:
+          type: string
+          description: Normalized object path (e.g. `/objects/uploads/uuid`). Store this in your database.
+        metadata:
+          $ref: '#/components/schemas/UploadUrlRequest'
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
