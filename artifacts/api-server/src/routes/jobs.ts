@@ -19,6 +19,7 @@ async function serializeAll(userId: number) {
   return jobs.map((j) => ({
     ...j,
     saved: savedSet.has(j.id),
+    isOwn: j.createdByUserId === userId,
   }));
 }
 
@@ -82,6 +83,7 @@ const tags = rawTags
   res.status(201).json({
     ...job,
     saved: false,
+    isOwn: true,
   });
 });
 

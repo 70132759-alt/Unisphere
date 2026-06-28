@@ -22,6 +22,7 @@ async function serializeAll(userId: number) {
     category: e.category,
     attendees: e.attendeesCount,
     rsvp: rsvpSet.has(e.id),
+    isOwn: e.createdByUserId === userId,
   }));
 }
 
@@ -80,6 +81,7 @@ router.post("/", async (req, res) => {
     category: event.category,
     attendees: event.attendeesCount,
     rsvp: false,
+    isOwn: true,
   });
 });
 

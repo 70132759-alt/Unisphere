@@ -20,6 +20,7 @@ async function serializeAll(userId: number) {
     icon: s.icon,
     members: s.membersCount,
     joined: joinedSet.has(s.id),
+    isOwn: s.createdByUserId === userId,
   }));
 }
 
@@ -71,6 +72,7 @@ router.post("/", async (req, res) => {
     icon: society.icon,
     members: society.membersCount,
     joined: true,
+    isOwn: true,
   });
 });
 
