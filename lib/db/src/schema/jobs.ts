@@ -5,6 +5,7 @@ import { usersTable } from "./users";
 
 export const jobsTable = pgTable("jobs", {
   id: serial("id").primaryKey(),
+  createdByUserId: integer("created_by_user_id").references(() => usersTable.id, { onDelete: "set null" }),
   title: text("title").notNull(),
   company: text("company").notNull(),
   location: text("location").notNull().default(""),
@@ -26,6 +27,6 @@ export const savedJobsTable = pgTable(
   (t) => [unique("saved_jobs_unique").on(t.userId, t.jobId)],
 );
 
-export const insertJobSchema = createInsertSchema(jobsTable).omit({ id: true, createdAt: true });
+export const insertJobSchema = createInsertSchema(jobsTable).omit({ id: true, createdAt: true, createdByUserId: true });
 export type InsertJob = z.infer<typeof insertJobSchema>;
 export type Job = typeof jobsTable.$inferSelect;

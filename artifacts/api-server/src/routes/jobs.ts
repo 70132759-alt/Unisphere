@@ -28,6 +28,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const userId = getCurrentUserId(req);
   const title = String(req.body.title ?? "").trim();
   const company = String(req.body.company ?? "").trim();
   const location = String(req.body.location ?? "").trim();
@@ -62,6 +63,7 @@ const tags = rawTags
   const [job] = await db
     .insert(jobsTable)
     .values({
+      createdByUserId: userId,
       title,
       company,
       location,
@@ -81,6 +83,28 @@ const tags = rawTags
     ...job,
     saved: false,
   });
+});
+
+router.delete("/:id", async (req, res) => {
+  const userId = getCurrentUserId(req);
+  const jobId = Number(req.params.id);
+
+  if (!Number.isFinite(jobId)) {
+    res.status(400).json({ error: "Invalid job id" });
+    return;
+  }
+
+  const deleted = await db
+    .delete(jobsTable)
+    .where(and(eq(jobsTable.id, jobId), eq(jobsTable.createdByUserId, userId)))
+    .returning({ id: jobsTable.id });
+
+  if (deleted.length === 0) {
+    res.status(404).json({ error: "Job not found or you do not have permission to delete it" });
+    return;
+  }
+
+  res.status(204).send();
 });
 
 router.post("/:id/save", async (req, res) => {

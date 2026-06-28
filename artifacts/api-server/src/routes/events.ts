@@ -31,6 +31,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const userId = getCurrentUserId(req);
   const name = String(req.body.name ?? "").trim();
   const date = String(req.body.date ?? "").trim();
   const location = String(req.body.location ?? "").trim();
@@ -55,6 +56,7 @@ router.post("/", async (req, res) => {
   const [event] = await db
     .insert(eventsTable)
     .values({
+      createdByUserId: userId,
       name,
       date,
       location,
@@ -79,6 +81,28 @@ router.post("/", async (req, res) => {
     attendees: event.attendeesCount,
     rsvp: false,
   });
+});
+
+router.delete("/:id", async (req, res) => {
+  const userId = getCurrentUserId(req);
+  const eventId = Number(req.params.id);
+
+  if (!Number.isFinite(eventId)) {
+    res.status(400).json({ error: "Invalid event id" });
+    return;
+  }
+
+  const deleted = await db
+    .delete(eventsTable)
+    .where(and(eq(eventsTable.id, eventId), eq(eventsTable.createdByUserId, userId)))
+    .returning({ id: eventsTable.id });
+
+  if (deleted.length === 0) {
+    res.status(404).json({ error: "Event not found or you do not have permission to delete it" });
+    return;
+  }
+
+  res.status(204).send();
 });
 
 router.post("/:id/rsvp", async (req, res) => {

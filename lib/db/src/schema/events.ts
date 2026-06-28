@@ -5,6 +5,7 @@ import { usersTable } from "./users";
 
 export const eventsTable = pgTable("events", {
   id: serial("id").primaryKey(),
+  createdByUserId: integer("created_by_user_id").references(() => usersTable.id, { onDelete: "set null" }),
   name: text("name").notNull(),
   date: text("date").notNull(),
   location: text("location").notNull().default(""),
@@ -29,6 +30,7 @@ export const insertEventSchema = createInsertSchema(eventsTable).omit({
   id: true,
   createdAt: true,
   attendeesCount: true,
+  createdByUserId: true,
 });
 export type InsertEvent = z.infer<typeof insertEventSchema>;
 export type Event = typeof eventsTable.$inferSelect;

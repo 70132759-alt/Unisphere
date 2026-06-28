@@ -43,6 +43,7 @@ router.post("/", async (req, res) => {
   const [society] = await db
     .insert(societiesTable)
     .values({
+      createdByUserId: userId,
       name,
       description,
       icon,
@@ -71,6 +72,28 @@ router.post("/", async (req, res) => {
     members: society.membersCount,
     joined: true,
   });
+});
+
+router.delete("/:id", async (req, res) => {
+  const userId = getCurrentUserId(req);
+  const societyId = Number(req.params.id);
+
+  if (!Number.isFinite(societyId)) {
+    res.status(400).json({ error: "Invalid society id" });
+    return;
+  }
+
+  const deleted = await db
+    .delete(societiesTable)
+    .where(and(eq(societiesTable.id, societyId), eq(societiesTable.createdByUserId, userId)))
+    .returning({ id: societiesTable.id });
+
+  if (deleted.length === 0) {
+    res.status(404).json({ error: "Society not found or you do not have permission to delete it" });
+    return;
+  }
+
+  res.status(204).send();
 });
 
 router.post("/:id/join", async (req, res) => {

@@ -9,6 +9,16 @@ import {
   getGetSocietiesQueryKey,
 } from "@workspace/api-client-react";
 
+type SocietyWithOwner = {
+  id: number;
+  name: string;
+  desc: string;
+  icon: string;
+  members: number;
+  joined: boolean;
+  isOwn?: boolean;
+};
+
 const bgColors = ["#ede9fe", "#d1fae5", "#fce7f3", "#dcfce7", "#dbeafe", "#fef3c7"];
 const iconColors = ["#4f46e5", "#10b981", "#ec4899", "#16a34a", "#2563eb", "#d97706"];
 
@@ -38,7 +48,8 @@ export default function Societies() {
   const qc = useQueryClient();
   const { getToken } = useAuth();
 
-  const { data: list = [] } = useGetSocieties();
+  const { data: societiesData = [] } = useGetSocieties();
+  const list: SocietyWithOwner[] = Array.isArray(societiesData) ? (societiesData as SocietyWithOwner[]) : [];
 
   const [search, setSearch] = useState("");
   const [showCreate, setShowCreate] = useState(false);
@@ -57,6 +68,26 @@ export default function Societies() {
     if (joined) await leaveSociety(id);
     else await joinSociety(id);
 
+    qc.invalidateQueries({ queryKey: getGetSocietiesQueryKey() });
+  };
+
+  const deleteSociety = async (id: number) => {
+    const confirmed = window.confirm("Delete this society?");
+    if (!confirmed) return;
+
+    const token = await getToken();
+
+    const response = await fetch(`/api/societies/${id}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      console.error("Could not delete society");
+      return;
+    }
+
+    setSelectedId(null);
     qc.invalidateQueries({ queryKey: getGetSocietiesQueryKey() });
   };
 
@@ -194,17 +225,33 @@ export default function Societies() {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  className={`btn ${s.joined ? "btn-outline" : "btn-primary"}`}
-                  style={{ width: "100%", marginTop: "12px" }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleJoin(s.id, s.joined);
-                  }}
-                >
-                  {s.joined ? "Leave Society" : "Join Society"}
-                </button>
+                <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
+                  {s.isOwn && (
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ flex: 1, color: "var(--danger)" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteSociety(s.id);
+                      }}
+                    >
+                      <i className="fas fa-trash-alt"></i> Delete
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className={`btn ${s.joined ? "btn-outline" : "btn-primary"}`}
+                    style={{ flex: 1 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleJoin(s.id, s.joined);
+                    }}
+                  >
+                    {s.joined ? "Leave Society" : "Join Society"}
+                  </button>
+                </div>
               </div>
             </div>
           );

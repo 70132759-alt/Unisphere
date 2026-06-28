@@ -10,12 +10,14 @@ import {
 } from "@workspace/api-client-react";
 import type { Job } from "@workspace/api-client-react";
 
+type JobWithOwner = Job & { isOwn?: boolean };
+
 export default function Jobs() {
   const qc = useQueryClient();
   const { getToken } = useAuth();
 
   const { data: jobsData } = useGetJobs();
-  const jobs = Array.isArray(jobsData) ? jobsData : [];
+  const jobs: JobWithOwner[] = Array.isArray(jobsData) ? (jobsData as JobWithOwner[]) : [];
 
   const [applied, setApplied] = useState<Record<number, boolean>>({});
   const [toast, setToast] = useState<string | null>(null);
@@ -58,6 +60,26 @@ export default function Jobs() {
     else await saveJob(id);
 
     qc.invalidateQueries({ queryKey: getGetJobsQueryKey() });
+  };
+
+  const deleteJob = async (id: number) => {
+    const confirmed = window.confirm("Delete this job post?");
+    if (!confirmed) return;
+
+    const token = await getToken();
+
+    const response = await fetch(`/api/jobs/${id}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      setToast("Could not delete job");
+      return;
+    }
+
+    qc.invalidateQueries({ queryKey: getGetJobsQueryKey() });
+    setToast("Job deleted");
   };
 
   const createJob = async (e: FormEvent) => {
@@ -196,6 +218,21 @@ export default function Jobs() {
                   <h4 style={{ fontSize: "16px", fontWeight: 700, marginBottom: "4px" }}>
                     {job.title}
                   </h4>
+
+                  {job.isOwn && (
+                    <button
+                      type="button"
+                      className="save-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteJob(job.id);
+                      }}
+                      title="Delete job"
+                      style={{ color: "var(--danger)" }}
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  )}
 
                   <button
                     type="button"

@@ -5,6 +5,7 @@ import { usersTable } from "./users";
 
 export const societiesTable = pgTable("societies", {
   id: serial("id").primaryKey(),
+  createdByUserId: integer("created_by_user_id").references(() => usersTable.id, { onDelete: "set null" }),
   name: text("name").notNull(),
   description: text("description").notNull().default(""),
   icon: text("icon").notNull().default(""),
@@ -27,6 +28,7 @@ export const insertSocietySchema = createInsertSchema(societiesTable).omit({
   id: true,
   createdAt: true,
   membersCount: true,
+  createdByUserId: true,
 });
 export type InsertSociety = z.infer<typeof insertSocietySchema>;
 export type Society = typeof societiesTable.$inferSelect;

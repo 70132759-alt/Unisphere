@@ -10,6 +10,8 @@ import {
 } from "@workspace/api-client-react";
 import type { Event } from "@workspace/api-client-react";
 
+type EventWithOwner = Event & { isOwn?: boolean };
+
 const categoryColors: Record<string, string> = {
   All: "#4f46e5",
   General: "#64748b",
@@ -70,10 +72,10 @@ export default function Events() {
   const { getToken } = useAuth();
 
   const { data: eventsData } = useGetEvents();
-  const events = Array.isArray(eventsData) ? eventsData : [];
+  const events: EventWithOwner[] = Array.isArray(eventsData) ? (eventsData as EventWithOwner[]) : [];
 
   const [filter, setFilter] = useState("All");
-  const [selected, setSelected] = useState<Event | null>(null);
+  const [selected, setSelected] = useState<EventWithOwner | null>(null);
   const [showCreate, setShowCreate] = useState(false);
   const [creating, setCreating] = useState(false);
 
@@ -86,7 +88,7 @@ export default function Events() {
     image: "",
   });
 
-  const toggleRsvp = async (ev: Event) => {
+  const toggleRsvp = async (ev: EventWithOwner) => {
     if (ev.rsvp) await unrsvpEvent(ev.id);
     else await rsvpEvent(ev.id);
 
@@ -101,6 +103,26 @@ export default function Events() {
           }
         : prev,
     );
+  };
+
+  const deleteEvent = async (id: number) => {
+    const confirmed = window.confirm("Delete this event?");
+    if (!confirmed) return;
+
+    const token = await getToken();
+
+    const response = await fetch(`/api/events/${id}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      console.error("Could not delete event");
+      return;
+    }
+
+    setSelected(null);
+    qc.invalidateQueries({ queryKey: getGetEventsQueryKey() });
   };
 
   const createEvent = async (e: FormEvent) => {
@@ -248,25 +270,41 @@ export default function Events() {
                     </span>
                   </div>
 
-                  <button
-                    type="button"
-                    className={`btn ${e.rsvp ? "btn-outline" : "btn-primary"}`}
-                    style={{ width: "100%", marginTop: "12px" }}
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      toggleRsvp(e);
-                    }}
-                  >
-                    {e.rsvp ? (
-                      <>
-                        <i className="fas fa-check"></i> Going!
-                      </>
-                    ) : (
-                      <>
-                        <i className="far fa-calendar-plus"></i> RSVP
-                      </>
+                  <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
+                    {e.isOwn && (
+                      <button
+                        type="button"
+                        className="btn btn-outline"
+                        style={{ flex: 1, color: "var(--danger)" }}
+                        onClick={(ev) => {
+                          ev.stopPropagation();
+                          deleteEvent(e.id);
+                        }}
+                      >
+                        <i className="fas fa-trash-alt"></i> Delete
+                      </button>
                     )}
-                  </button>
+
+                    <button
+                      type="button"
+                      className={`btn ${e.rsvp ? "btn-outline" : "btn-primary"}`}
+                      style={{ flex: 1 }}
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                        toggleRsvp(e);
+                      }}
+                    >
+                      {e.rsvp ? (
+                        <>
+                          <i className="fas fa-check"></i> Going!
+                        </>
+                      ) : (
+                        <>
+                          <i className="far fa-calendar-plus"></i> RSVP
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
