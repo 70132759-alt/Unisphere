@@ -1,0 +1,15 @@
+{
+  "installCommand": "corepack enable && corepack prepare pnpm@10 --activate && pnpm install --frozen-lockfile",
+  "buildCommand": "corepack enable && corepack prepare pnpm@10 --activate && pnpm --filter @workspace/unisphere run build",
+  "outputDirectory": "artifacts/unisphere/dist/public",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/[...path]"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}
