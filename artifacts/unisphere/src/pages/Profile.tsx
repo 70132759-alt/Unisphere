@@ -56,8 +56,9 @@ export default function Profile() {
       setEditName(profile.name);
       setEditMajor(profile.major);
       setEditTags(profile.tags ?? []);
+      setFollowing(!isOwn && Boolean((profile as typeof profile & { isFollowing?: boolean }).isFollowing));
     }
-  }, [profile]);
+  }, [profile, isOwn]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -66,8 +67,19 @@ export default function Profile() {
 
   const toggleFollow = async () => {
     if (viewId === null) return;
-    if (following) { await unfollowUser(viewId); setFollowing(false); showToast("Unfollowed"); }
-    else { await followUser(viewId); setFollowing(true); showToast(`Following ${profile?.name ?? ""}`); }
+
+    if (following) {
+      await unfollowUser(viewId);
+      setFollowing(false);
+      showToast("Unfollowed");
+    } else {
+      await followUser(viewId);
+      setFollowing(true);
+      showToast(`Following ${profile?.name ?? ""}`);
+    }
+
+    qc.invalidateQueries({ queryKey: getGetCurrentUserQueryKey() });
+    qc.invalidateQueries({ queryKey: getGetUserByIdQueryKey(viewId) });
   };
 
   const saveBio = async () => {
@@ -398,5 +410,8 @@ export default function Profile() {
     </Layout>
   );
 }
+
+
+
 
 
