@@ -206,7 +206,7 @@ function SignInForm() {
         <button
           type="button"
           onClick={() => setLocation("/sign-up")}
-          className="text-indigo-600 hover:text-indigo-700 font-semibold"
+          className="cursor-pointer text-indigo-600 hover:text-indigo-700 hover:underline font-semibold transition-colors"
         >
           Create Account
         </button>
@@ -376,7 +376,7 @@ function SignUpForm() {
         <button
           type="button"
           onClick={() => setLocation("/sign-in")}
-          className="text-indigo-600 hover:text-indigo-700 font-semibold"
+          className="cursor-pointer text-indigo-600 hover:text-indigo-700 hover:underline font-semibold transition-colors"
         >
           Sign In
         </button>
@@ -384,3 +384,4 @@ function SignUpForm() {
     </div>
   );
 }
+
