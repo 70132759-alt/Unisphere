@@ -115,6 +115,57 @@ router.get("/:userId", async (req, res) => {
   );
 });
 
+
+router.delete("/message/:messageId", async (req, res) => {
+  const userId = getCurrentUserId(req);
+  const messageId = Number(req.params.messageId);
+
+  if (!Number.isFinite(messageId)) {
+    res.status(400).json({ error: "Invalid message id" });
+    return;
+  }
+
+  const [message] = await db
+    .select()
+    .from(messagesTable)
+    .where(eq(messagesTable.id, messageId));
+
+  if (!message) {
+    res.status(404).json({ error: "Message not found" });
+    return;
+  }
+
+  if (message.senderId !== userId && message.receiverId !== userId) {
+    res.status(403).json({ error: "Not allowed" });
+    return;
+  }
+
+  if (message.senderId === userId) {
+    await db
+      .update(messagesTable)
+      .set({ deletedForSender: true })
+      .where(eq(messagesTable.id, messageId));
+  }
+
+  if (message.receiverId === userId) {
+    await db
+      .update(messagesTable)
+      .set({ deletedForReceiver: true })
+      .where(eq(messagesTable.id, messageId));
+  }
+
+  await db
+    .delete(messagesTable)
+    .where(
+      and(
+        eq(messagesTable.id, messageId),
+        eq(messagesTable.deletedForSender, true),
+        eq(messagesTable.deletedForReceiver, true),
+      ),
+    );
+
+  res.json({ ok: true });
+});
 router.delete("/:userId", async (req, res) => {
   const userId = getCurrentUserId(req);
   const otherId = Number(req.params.userId);
@@ -225,6 +276,7 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
+
 
 
 

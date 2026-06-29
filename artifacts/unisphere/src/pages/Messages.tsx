@@ -117,6 +117,27 @@ export default function Messages() {
     showToast("Conversation deleted");
   };
 
+  const deleteSingleMessage = async (messageId: number) => {
+    if (!activeContact) return;
+
+    const confirmed = window.confirm("Delete this message?");
+    if (!confirmed) return;
+
+    const token = await getToken();
+
+    const response = await fetch(`/api/messages/message/${messageId}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      showToast("Could not delete message");
+      return;
+    }
+
+    refresh();
+    showToast("Message deleted");
+  };
   const handleSend = async () => {
     if (!inputText.trim() || !activeContact) return;
 
@@ -312,8 +333,36 @@ export default function Messages() {
                     <div
                       key={msg.id}
                       className={`message ${msg.type}`}
-                      style={msg.isAttachment ? { background: "transparent", padding: 0 } : {}}
+                      style={{
+                        position: "relative",
+                        ...(msg.isAttachment ? { background: "transparent", padding: 0 } : {}),
+                      }}
                     >
+                      <button
+                        type="button"
+                        title="Delete message"
+                        onClick={() => deleteSingleMessage(msg.id)}
+                        style={{
+                          position: "absolute",
+                          top: "-8px",
+                          right: msg.type === "sent" ? "-8px" : "auto",
+                          left: msg.type === "received" ? "-8px" : "auto",
+                          width: "22px",
+                          height: "22px",
+                          borderRadius: "50%",
+                          border: "1px solid var(--border-html)",
+                          background: "var(--card-bg)",
+                          color: "var(--danger)",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "10px",
+                          zIndex: 2,
+                        }}
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
                       {msg.isAttachment ? (
                         <div style={{ maxWidth: "260px" }}>
                           {isVideoAttachment(msg.image, msg.filename) ? (
@@ -457,3 +506,6 @@ export default function Messages() {
     </Layout>
   );
 }
+
+
+
