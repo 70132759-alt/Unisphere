@@ -747,6 +747,9 @@ components:
       properties:
         receiverId: { type: integer }
         text: { type: string }
+        isAttachment: { type: boolean }
+        image: { type: string, nullable: true }
+        filename: { type: string, nullable: true }
 
     Notification:
       type: object
@@ -851,4 +854,7 @@ components:
       properties:
         error:
           type: string
+
+
+
 

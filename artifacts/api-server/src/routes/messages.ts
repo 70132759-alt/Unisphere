@@ -178,7 +178,13 @@ router.delete("/:userId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const userId = getCurrentUserId(req);
-  const body = SendMessageBody.parse(req.body);
+  const body = SendMessageBody.parse(req.body) as {
+    receiverId: number;
+    text: string;
+    isAttachment?: boolean;
+    image?: string | null;
+    filename?: string | null;
+  };
 
   const [msg] = await db
     .insert(messagesTable)
@@ -186,6 +192,9 @@ router.post("/", async (req, res) => {
       senderId: userId,
       receiverId: body.receiverId,
       text: body.text,
+      isAttachment: body.isAttachment ?? false,
+      image: body.image ?? null,
+      filename: body.filename ?? null,
     })
     .returning();
 
@@ -216,3 +225,6 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
+
+
+

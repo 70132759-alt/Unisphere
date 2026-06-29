@@ -12,6 +12,9 @@ import {
   getGetChatContactsQueryKey,
 } from "@workspace/api-client-react";
 
+const isVideoAttachment = (url?: string | null, filename?: string | null) =>
+  /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url ?? filename ?? "");
+
 export default function Messages() {
   const qc = useQueryClient();
   const { getToken } = useAuth();
@@ -156,8 +159,11 @@ export default function Messages() {
 
     await sendMessage({
       receiverId: activeContact.id,
-      text: `📎 ${file.name} — ${uploadedUrl}`,
-    });
+      text: "",
+      isAttachment: true,
+      image: uploadedUrl,
+      filename: file.name,
+    } as Parameters<typeof sendMessage>[0] & { isAttachment?: boolean; image?: string | null; filename?: string | null });
 
     refresh();
     showToast("Attachment sent");
@@ -310,11 +316,19 @@ export default function Messages() {
                     >
                       {msg.isAttachment ? (
                         <div style={{ maxWidth: "260px" }}>
-                          <img
-                            src={msg.image || undefined}
-                            style={{ width: "100%", borderRadius: "12px" }}
-                            alt="Attachment"
-                          />
+                          {isVideoAttachment(msg.image, msg.filename) ? (
+                              <video
+                                src={msg.image || undefined}
+                                style={{ width: "100%", borderRadius: "12px" }}
+                                controls
+                              />
+                            ) : (
+                              <img
+                                src={msg.image || undefined}
+                                style={{ width: "100%", borderRadius: "12px" }}
+                                alt="Attachment"
+                              />
+                            )}
                           <div
                             style={{
                               textAlign: "center",

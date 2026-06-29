@@ -137,6 +137,9 @@ export interface Message {
 export interface SendMessageRequest {
   receiverId: number;
   text: string;
+  isAttachment?: boolean;
+  image?: string | null;
+  filename?: string | null;
 }
 
 export interface Notification {
@@ -222,6 +225,9 @@ export interface ErrorEnvelope {
 export type SearchParams = {
 q: string;
 };
+
+
+
 
 
 

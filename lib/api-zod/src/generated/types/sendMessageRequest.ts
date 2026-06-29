@@ -9,4 +9,8 @@
 export interface SendMessageRequest {
   receiverId: number;
   text: string;
+  isAttachment?: boolean;
+  image?: string | null;
+  filename?: string | null;
 }
+

@@ -420,7 +420,10 @@ export const GetMessagesResponse = zod.array(GetMessagesResponseItem)
 
 export const SendMessageBody = zod.object({
   "receiverId": zod.number(),
-  "text": zod.string()
+  "text": zod.string(),
+  "isAttachment": zod.boolean().optional(),
+  "image": zod.string().nullish(),
+  "filename": zod.string().nullish()
 })
 
 
@@ -579,5 +582,8 @@ be protected with authentication or ACL checks based on the use case.
 export const GetStorageObjectParams = zod.object({
   "objectPath": zod.coerce.string().describe('Object path within the private object dir (e.g. `uploads\/some-uuid`).')
 })
+
+
+
 
 
