@@ -316,6 +316,29 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/Job" }
 
+  /jobs/{id}/apply:
+    post:
+      operationId: applyJob
+      tags: [jobs]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+    delete:
+      operationId: withdrawJobApplication
+      tags: [jobs]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
   /messages/contacts:
     get:
       operationId: getChatContacts
@@ -680,7 +703,7 @@ components:
 
     Job:
       type: object
-      required: [id, title, company, location, type, salary, tags, logo, saved]
+      required: [id, title, company, location, type, salary, tags, logo, saved, applied]
       properties:
         id: { type: integer }
         title: { type: string }
@@ -693,6 +716,7 @@ components:
           items: { type: string }
         logo: { type: string }
         saved: { type: boolean }
+        applied: { type: boolean }
 
     ChatContact:
       type: object
@@ -827,3 +851,4 @@ components:
       properties:
         error:
           type: string
+

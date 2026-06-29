@@ -1597,6 +1597,134 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getUnsaveJobMutationOptions(options));
     }
 
+export const getApplyJobUrl = (id: number,) => {
+
+
+
+
+  return `/api/jobs/${id}/apply`
+}
+
+export const applyJob = async (id: number, options?: RequestInit): Promise<Job> => {
+
+  return customFetch<Job>(getApplyJobUrl(id),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getApplyJobMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof applyJob>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof applyJob>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['applyJob'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof applyJob>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  applyJob(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ApplyJobMutationResult = NonNullable<Awaited<ReturnType<typeof applyJob>>>
+
+    export type ApplyJobMutationError = ErrorType<unknown>
+
+    export const useApplyJob = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof applyJob>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof applyJob>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getApplyJobMutationOptions(options));
+    }
+
+export const getWithdrawJobApplicationUrl = (id: number,) => {
+
+
+
+
+  return `/api/jobs/${id}/apply`
+}
+
+export const withdrawJobApplication = async (id: number, options?: RequestInit): Promise<Job> => {
+
+  return customFetch<Job>(getWithdrawJobApplicationUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getWithdrawJobApplicationMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof withdrawJobApplication>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof withdrawJobApplication>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['withdrawJobApplication'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof withdrawJobApplication>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  withdrawJobApplication(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type WithdrawJobApplicationMutationResult = NonNullable<Awaited<ReturnType<typeof withdrawJobApplication>>>
+
+    export type WithdrawJobApplicationMutationError = ErrorType<unknown>
+
+    export const useWithdrawJobApplication = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof withdrawJobApplication>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof withdrawJobApplication>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getWithdrawJobApplicationMutationOptions(options));
+    }
+
 export const getGetChatContactsUrl = () => {
 
 

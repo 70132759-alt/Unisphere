@@ -6,6 +6,8 @@ import {
   useGetJobs,
   saveJob,
   unsaveJob,
+  applyJob,
+  withdrawJobApplication,
   getGetJobsQueryKey,
 } from "@workspace/api-client-react";
 import type { Job } from "@workspace/api-client-react";
@@ -18,8 +20,6 @@ export default function Jobs() {
 
   const { data: jobsData } = useGetJobs();
   const jobs: JobWithOwner[] = Array.isArray(jobsData) ? (jobsData as JobWithOwner[]) : [];
-
-  const [applied, setApplied] = useState<Record<number, boolean>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [filter, setFilter] = useState("All");
   const [details, setDetails] = useState<Job | null>(null);
@@ -50,9 +50,16 @@ export default function Jobs() {
     window.setTimeout(() => setToast(null), 3000);
   };
 
-  const handleApply = (id: number, title: string) => {
-    setApplied((prev) => ({ ...prev, [id]: true }));
-    showToast(`Application sent for "${title}"! 🎉`);
+  const toggleApply = async (id: number, title: string, applied: boolean) => {
+    if (applied) {
+      await withdrawJobApplication(id);
+      showToast(`Application withdrawn for "${title}".`);
+    } else {
+      await applyJob(id);
+      showToast(`Application sent for "${title}".`);
+    }
+
+    qc.invalidateQueries({ queryKey: getGetJobsQueryKey() });
   };
 
   const toggleSave = async (id: number, saved: boolean) => {
@@ -292,14 +299,13 @@ export default function Jobs() {
           >
             <button
               type="button"
-              className={`btn ${applied[job.id] ? "btn-outline" : "btn-primary"}`}
+              className={`btn ${job.applied ? "btn-outline" : "btn-primary"}`}
               style={{ flex: 1 }}
-              onClick={() => !applied[job.id] && handleApply(job.id, job.title)}
-              disabled={applied[job.id]}
+              onClick={() => toggleApply(job.id, job.title, Boolean(job.applied))}
             >
-              {applied[job.id] ? (
+              {job.applied ? (
                 <>
-                  <i className="fas fa-check"></i> Applied!
+                  <i className="fas fa-check"></i> Applied
                 </>
               ) : (
                 "Apply Now"
@@ -477,17 +483,16 @@ export default function Jobs() {
               <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
                 <button
                   type="button"
-                  className={`btn ${applied[details.id] ? "btn-outline" : "btn-primary"}`}
+                  className={`btn ${details.applied ? "btn-outline" : "btn-primary"}`}
                   style={{ flex: 1 }}
-                  disabled={applied[details.id]}
                   onClick={() => {
-                    handleApply(details.id, details.title);
+                    void toggleApply(details.id, details.title, Boolean(details.applied));
                     setDetails(null);
                   }}
                 >
-                  {applied[details.id] ? (
+                  {details.applied ? (
                     <>
-                      <i className="fas fa-check"></i> Applied!
+                      <i className="fas fa-check"></i> Applied
                     </>
                   ) : (
                     "Apply Now"
@@ -510,3 +515,5 @@ export default function Jobs() {
     </Layout>
   );
 }
+
+

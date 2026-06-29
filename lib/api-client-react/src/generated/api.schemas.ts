@@ -110,6 +110,7 @@ export interface Job {
   tags: string[];
   logo: string;
   saved: boolean;
+  applied: boolean;
 }
 
 export interface ChatContact {

@@ -313,7 +313,8 @@ export const GetJobsResponseItem = zod.object({
   "salary": zod.string(),
   "tags": zod.array(zod.string()),
   "logo": zod.string(),
-  "saved": zod.boolean()
+  "saved": zod.boolean(),
+  "applied": zod.boolean()
 })
 export const GetJobsResponse = zod.array(GetJobsResponseItem)
 
@@ -331,7 +332,8 @@ export const SaveJobResponse = zod.object({
   "salary": zod.string(),
   "tags": zod.array(zod.string()),
   "logo": zod.string(),
-  "saved": zod.boolean()
+  "saved": zod.boolean(),
+  "applied": zod.boolean()
 })
 
 
@@ -348,7 +350,44 @@ export const UnsaveJobResponse = zod.object({
   "salary": zod.string(),
   "tags": zod.array(zod.string()),
   "logo": zod.string(),
-  "saved": zod.boolean()
+  "saved": zod.boolean(),
+  "applied": zod.boolean()
+})
+
+
+export const ApplyJobParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const ApplyJobResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "company": zod.string(),
+  "location": zod.string(),
+  "type": zod.string(),
+  "salary": zod.string(),
+  "tags": zod.array(zod.string()),
+  "logo": zod.string(),
+  "saved": zod.boolean(),
+  "applied": zod.boolean()
+})
+
+
+export const WithdrawJobApplicationParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const WithdrawJobApplicationResponse = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "company": zod.string(),
+  "location": zod.string(),
+  "type": zod.string(),
+  "salary": zod.string(),
+  "tags": zod.array(zod.string()),
+  "logo": zod.string(),
+  "saved": zod.boolean(),
+  "applied": zod.boolean()
 })
 
 

@@ -27,6 +27,17 @@ export const savedJobsTable = pgTable(
   (t) => [unique("saved_jobs_unique").on(t.userId, t.jobId)],
 );
 
+export const jobApplicationsTable = pgTable(
+  "job_applications",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+    jobId: integer("job_id").notNull().references(() => jobsTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (t) => [unique("job_applications_unique").on(t.userId, t.jobId)],
+);
+
 export const insertJobSchema = createInsertSchema(jobsTable).omit({ id: true, createdAt: true, createdByUserId: true });
 export type InsertJob = z.infer<typeof insertJobSchema>;
 export type Job = typeof jobsTable.$inferSelect;
