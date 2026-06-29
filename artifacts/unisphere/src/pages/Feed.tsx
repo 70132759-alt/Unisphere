@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import Layout from "@/components/Layout";
 import { useUpload } from "@workspace/object-storage-web";
 import {
@@ -35,7 +36,13 @@ const storyTimeLeft = (createdAt?: string | null, now = Date.now()) => {
 const isVideo = (url?: string | null) => !!url && /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
 
 export default function Feed() {
+  const [, navigate] = useLocation();
   const qc = useQueryClient();
+
+  const openPostAuthor = (post: Post) => {
+    const authorId = (post as Post & { authorId?: number }).authorId;
+    if (authorId) navigate(`/profile/${authorId}`);
+  };
   const postsQuery = useGetPosts();
   const storiesQuery = useGetStories();
   const meQuery = useGetCurrentUser();
@@ -184,8 +191,8 @@ useEffect(() => {
         {posts.map(post => (
           <div key={post.id} className="card post-card">
             <div className="post-header">
-              <img src={post.avatar} className="avatar-img" alt="Avatar" />
-              <div className="post-meta">
+              <img src={post.avatar} className="avatar-img" alt="Avatar" style={{ cursor: "pointer" }} onClick={() => openPostAuthor(post)} />
+              <div className="post-meta" style={{ cursor: "pointer" }} onClick={() => openPostAuthor(post)}>
                 <strong>{post.author}</strong>
                 <span>{post.major}</span>
               </div>
@@ -285,3 +292,6 @@ useEffect(() => {
     </Layout>
   );
 }
+
+
+

@@ -30,13 +30,13 @@ export default function RightSidebar() {
         )}
         {suggestionList.map(s => (
           <div key={s.id} className="suggestion-item">
-            <div className="suggestion-info">
+            <Link href={`/profile/${s.id}`} className="suggestion-info" style={{ textDecoration: "none", color: "inherit" }}>
               <img src={s.avatar} alt="Avatar" className="avatar-img" />
               <div>
                 <div>{s.name}</div>
                 <div>{s.major}</div>
               </div>
-            </div>
+            </Link>
             <button
               className={`btn btn-mini ${s.isFollowing ? "btn-outline" : "btn-primary"}`}
               onClick={() => toggleFollow(s.id, s.isFollowing)}
@@ -74,3 +74,5 @@ export default function RightSidebar() {
     </div>
   );
 }
+
+

@@ -56,8 +56,9 @@ export interface Comment {
 }
 
 export interface Post {
-  id: number;
-  author: string;
+    id: number;
+    authorId: number;
+    author: string;
   major: string;
   avatar: string;
   content: string;
@@ -221,4 +222,6 @@ export interface ErrorEnvelope {
 export type SearchParams = {
 q: string;
 };
+
+
 

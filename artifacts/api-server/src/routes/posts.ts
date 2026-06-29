@@ -34,6 +34,7 @@ export async function serializePosts(userId: number, rows: { post: typeof postsT
 
   return rows.map(({ post, author }) => ({
     id: post.id,
+    authorId: author.id,
     author: author.name,
     major: `${author.major} • ${relativeTime(post.createdAt)}`,
     avatar: author.avatar,
@@ -174,3 +175,5 @@ async function returnPost(userId: number, postId: number, res: Parameters<Parame
 }
 
 export default router;
+
+

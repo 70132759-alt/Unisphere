@@ -43,7 +43,14 @@ router.get("/:id", async (req, res) => {
   const id = Number(req.params.id);
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id));
   if (!user) { res.status(404).json({ error: "User not found" }); return; }
-  res.json(user);
+
+  const existingFollow = await db
+    .select({ followedId: followsTable.followedId })
+    .from(followsTable)
+    .where(and(eq(followsTable.followerId, userId), eq(followsTable.followedId, id)))
+    .limit(1);
+
+  res.json({ ...user, isFollowing: existingFollow.length > 0 });
 });
 
 router.post("/:id/follow", async (req, res) => {
@@ -89,3 +96,5 @@ router.delete("/:id/follow", async (req, res) => {
 });
 
 export default router;
+
+
