@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Switch, Route, Router as WouterRouter, Redirect, useLocation } from "wouter";
 import {
   ClerkProvider,
+    AuthenticateWithRedirectCallback,
   Show,
   useClerk,
   useAuth,
@@ -129,6 +130,28 @@ function Protected({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SSOCallbackPage() {
+  return (
+    <div className="min-h-[100dvh] w-full flex items-center justify-center bg-white px-6">
+      <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+        <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600" />
+
+        <h1 className="text-lg font-semibold text-slate-900">
+          Completing Google sign-in
+        </h1>
+
+        <p className="mt-2 text-sm text-slate-600">
+          Please wait while Unisphere verifies your account.
+        </p>
+
+        <AuthenticateWithRedirectCallback />
+
+        <div id="clerk-captcha" />
+      </div>
+    </div>
+  );
+}
+
 function ClerkQueryClientCacheInvalidator() {
   const { addListener } = useClerk();
   const qc = useQueryClient();
@@ -187,6 +210,8 @@ function ClerkProviderWithRoutes() {
         <TooltipProvider>
           <Switch>
             <Route path="/" component={HomeRedirect} />
+            <Route path="/sign-in/sso-callback" component={SSOCallbackPage} />
+            <Route path="/sign-up/sso-callback" component={SSOCallbackPage} />
             <Route path="/sign-in/*?" component={SignInPage} />
             <Route path="/sign-up/*?" component={SignUpPage} />
             <Route path="/feed">{() => <Protected><Feed /></Protected>}</Route>
@@ -219,3 +244,4 @@ function App() {
 }
 
 export default App;
+
