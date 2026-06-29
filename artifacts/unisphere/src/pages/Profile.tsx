@@ -7,10 +7,12 @@ import {
   useGetCurrentUser,
   useGetUserById,
   useGetPosts,
+  deletePost,
   updateCurrentUser,
   followUser,
   unfollowUser,
   getGetCurrentUserQueryKey,
+  getGetPostsQueryKey,
   getGetUserByIdQueryKey,
 } from "@workspace/api-client-react";
 
@@ -45,6 +47,7 @@ export default function Profile() {
   const [tagInput, setTagInput] = useState("");
   const [following, setFollowing] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -98,6 +101,12 @@ export default function Profile() {
     showToast("Profile link copied! 🔗");
   };
 
+  const handleDelete = async (postId: number) => {
+    await deletePost(postId);
+    qc.invalidateQueries({ queryKey: getGetPostsQueryKey() });
+    showToast("Post deleted");
+    setMenuOpen(null);
+  };
   if (!profile) return <Layout><div /></Layout>;
 
   const myPosts = posts.filter(p => p.author === profile.name);
@@ -293,6 +302,22 @@ export default function Profile() {
                     <strong>{profile.name}</strong>
                     <span>{post.major}</span>
                   </div>
+                  <div className="post-menu-wrap">
+                    <button className="post-menu-btn" onClick={() => setMenuOpen(menuOpen === post.id ? null : post.id)}>
+                      <i className="fas fa-ellipsis-h"></i>
+                    </button>
+                    {menuOpen === post.id && (
+                      <>
+                        <div className="post-menu-overlay" onClick={() => setMenuOpen(null)} />
+                        <div className="post-menu-dropdown">
+                          <button onClick={() => { shareProfile(); setMenuOpen(null); }}><i className="fas fa-link"></i> Copy link</button>
+                          {post.isOwn && (
+                            <button onClick={() => handleDelete(post.id)} style={{ color: "var(--danger)" }}><i className="fas fa-trash-alt"></i> Delete post</button>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="post-content">
                   <p>{post.content}</p>
@@ -373,3 +398,5 @@ export default function Profile() {
     </Layout>
   );
 }
+
+
