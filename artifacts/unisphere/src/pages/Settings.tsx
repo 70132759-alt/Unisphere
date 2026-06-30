@@ -146,7 +146,7 @@ export default function Settings() {
 
   const handleSave = () => {
     setSaved(true);
-    showToast("All changes saved ✓");
+    showToast("All changes saved âœ“");
     setTimeout(() => setSaved(false), 2000);
   };
 
@@ -159,7 +159,7 @@ export default function Settings() {
       if (!res) { showToast("Photo upload failed. Please try again."); return; }
       await updateCurrentUser({ avatar: (res.objectPath.startsWith("http") ? res.objectPath : `/api/storage${res.objectPath}`) });
       qc.invalidateQueries({ queryKey: getGetCurrentUserQueryKey() });
-      showToast("Profile photo updated ✓");
+      showToast("Profile photo updated âœ“");
     } catch {
       showToast("Photo upload failed. Please try again.");
     }
@@ -174,7 +174,7 @@ export default function Settings() {
     a.download = "unisphere-data.json";
     a.click();
     URL.revokeObjectURL(url);
-    showToast("Your data is downloading…");
+    showToast("Your data is downloadingâ€¦");
   };
 
   const info = (title: string, text: string) => () => setModal({ title, body: <p style={{ lineHeight: 1.6 }}>{text}</p> });
@@ -207,25 +207,25 @@ export default function Settings() {
       <Section title="Account" icon="fas fa-user-circle">
         <NavRow label="Full Name" sub={currentUser?.name ?? ""} onClick={info("Full Name", "Your display name is shown across Unisphere. Edit it from your profile page.")} />
         <NavRow label="Email" sub={currentUser?.email ?? ""} onClick={info("Email", "Your account email is managed by your sign-in provider.")} />
-        <NavRow label="Major / Course" sub={currentUser?.major || "Not set — edit your profile"} onClick={info("Major / Course", "Your course or field of study. Edit it from your profile page.")} />
+        <NavRow label="Major / Course" sub={currentUser?.major || "Not set â€” edit your profile"} onClick={info("Major / Course", "Your course or field of study. Edit it from your profile page.")} />
         <NavRow label="Change Password" onClick={info("Change Password", "Passwords are handled securely by your sign-in provider. Use 'Forgot password' on the sign-in screen to reset.")} />
       </Section>
 
       {/* Notifications */}
       <Section title="Notifications" icon="far fa-bell">
-        <Row label="Likes on your posts"       right={<Toggle on={notifLikes}     onChange={toggleHandler("uni-notif-likes", setNotifLikes)} />} />
-        <Row label="Comments"                  right={<Toggle on={notifComments}  onChange={toggleHandler("uni-notif-comments", setNotifComments)} />} />
-        <Row label="New followers"             right={<Toggle on={notifFollows}   onChange={toggleHandler("uni-notif-follows", setNotifFollows)} />} />
-        <Row label="Event reminders"           right={<Toggle on={notifEvents}    onChange={toggleHandler("uni-notif-events", setNotifEvents)} />} />
-        <Row label="Direct messages"           right={<Toggle on={notifMessages}  onChange={toggleHandler("uni-notif-messages", setNotifMessages)} />} />
-        <Row label="Weekly email digest"       right={<Toggle on={emailDigest}    onChange={toggleHandler("uni-email-digest", setEmailDigest)} />} />
+        <Row label="Likes on your posts" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifLikes}     onChange={toggleHandler("uni-notif-likes", setNotifLikes)} />} />
+        <Row label="Comments" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifComments}  onChange={toggleHandler("uni-notif-comments", setNotifComments)} />} />
+        <Row label="New followers" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifFollows}   onChange={toggleHandler("uni-notif-follows", setNotifFollows)} />} />
+        <Row label="Event reminders" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifEvents}    onChange={toggleHandler("uni-notif-events", setNotifEvents)} />} />
+        <Row label="Direct messages" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifMessages}  onChange={toggleHandler("uni-notif-messages", setNotifMessages)} />} />
+        <Row label="Weekly email digest" sub="Local preference - saved for email updates" right={<Toggle on={emailDigest}    onChange={toggleHandler("uni-email-digest", setEmailDigest)} />} />
       </Section>
 
       {/* Privacy */}
       <Section title="Privacy & Safety" icon="fas fa-shield-alt">
-        <Row label="Public profile" sub="Anyone on Unisphere can see your profile" right={<Toggle on={privPublic} onChange={toggleHandler("uni-priv-public", setPrivPublic)} />} />
-        <Row label="Show activity status" sub="Let others see when you're online" right={<Toggle on={privActivity} onChange={toggleHandler("uni-priv-activity", setPrivActivity)} />} />
-        <Row label="Appear in search" sub="Let others discover your profile" right={<Toggle on={privSearch} onChange={toggleHandler("uni-priv-search", setPrivSearch)} />} />
+        <Row label="Public profile" sub="Local preference - saved on this device" right={<Toggle on={privPublic} onChange={toggleHandler("uni-priv-public", setPrivPublic)} />} />
+        <Row label="Show activity status" sub="Local preference - saved on this device" right={<Toggle on={privActivity} onChange={toggleHandler("uni-priv-activity", setPrivActivity)} />} />
+        <Row label="Appear in search" sub="Local preference - saved on this device" right={<Toggle on={privSearch} onChange={toggleHandler("uni-priv-search", setPrivSearch)} />} />
         <NavRow label="Blocked accounts" sub="Manage who can't see your profile" onClick={() => setModal({ title: "Blocked accounts", body: <p>You haven't blocked anyone. Blocked accounts will appear here.</p> })} />
         <NavRow label="Data & downloads" sub="Download a copy of your data" onClick={downloadData} />
       </Section>
@@ -247,7 +247,7 @@ export default function Settings() {
           body: <p>We'd love to hear from you! Email <strong>feedback@unisphere.app</strong> with your ideas and we'll review them.</p>,
         })} />
         <div className="settings-row" style={{ justifyContent: "center", borderBottom: "none" }}>
-          <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Unisphere v1.0.0 · Made with ❤️ for students</span>
+          <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Unisphere v1.0.0 Â· Made with â¤ï¸ for students</span>
         </div>
       </Section>
 
