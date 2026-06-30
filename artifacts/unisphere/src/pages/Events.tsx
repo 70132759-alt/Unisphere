@@ -44,29 +44,39 @@ const categoryDescription: Record<string, string> = {
 const categories = ["All", "General", "Career", "Tech", "Sports", "Culture"];
 const formCategories = ["General", "Career", "Tech", "Sports", "Culture"];
 
+function formatIsoDay(date: string) {
+  const match = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return date.trim();
+
+  const [, rawYear, rawMonth, rawDay] = match;
+  const parsed = new Date(Number(rawYear), Number(rawMonth) - 1, Number(rawDay));
+
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 function splitDate(date: string) {
   const idx = date.indexOf(",");
-  if (idx === -1) return { day: date.trim(), time: "" };
-  return { day: date.slice(0, idx).trim(), time: date.slice(idx + 1).trim() };
+  const dayPart = idx === -1 ? date.trim() : date.slice(0, idx).trim();
+  const timePart = idx === -1 ? "" : date.slice(idx + 1).trim();
+
+  return { day: formatIsoDay(dayPart), time: timePart };
 }
 
 function formatEventDate(date: string, time: string) {
   if (!date) return "";
-
-  const [year, month, day] = date.split("-").map(Number);
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const prettyDay = `${monthNames[(month || 1) - 1]} ${day || 1}`;
-
-  if (!time) return prettyDay;
+  if (!time) return date;
 
   const [rawHour, rawMinute] = time.split(":").map(Number);
   const suffix = rawHour >= 12 ? "PM" : "AM";
   const hour = rawHour % 12 || 12;
   const minute = String(rawMinute || 0).padStart(2, "0");
 
-  return `${prettyDay}, ${hour}:${minute} ${suffix}`;
+  return `${date}, ${hour}:${minute} ${suffix}`;
 }
-
 export default function Events() {
   const qc = useQueryClient();
   const { getToken } = useAuth();

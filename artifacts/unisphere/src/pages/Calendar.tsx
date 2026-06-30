@@ -19,21 +19,59 @@ const categoryColor: Record<string, string> = {
   Culture:"#ef4444",
 };
 
+function parseEventDate(date: string) {
+  const [datePart, ...timeParts] = date.split(",");
+  const time = timeParts.join(",").trim();
+
+  const iso = datePart.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (iso) {
+    return {
+      year: Number(iso[1]),
+      month: Number(iso[2]) - 1,
+      day: Number(iso[3]),
+      time,
+    };
+  }
+
+  const match = datePart.trim().match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2})$/i);
+  if (!match) return null;
+
+  const parsedMonth = MONTHS.findIndex((m) => m.toLowerCase().startsWith(match[1].toLowerCase().slice(0, 3)));
+  if (parsedMonth < 0) return null;
+
+  return {
+    year: new Date().getFullYear(),
+    month: parsedMonth,
+    day: Number(match[2]),
+    time,
+  };
+}
 export default function Calendar() {
   const today = new Date();
   const qc = useQueryClient();
   const { data: eventsData } = useGetEvents();
   const events = Array.isArray(eventsData) ? eventsData : [];
-  const dayToEvent: Record<number, Event | undefined> = {
-    13: events[0],
-    15: events[1],
-    20: events[2],
-    22: events[3],
-  };
-  const eventDays = dayToEvent;
-  const [year, setYear] = useState(2025);
-  const [month, setMonth] = useState(10); // 0-indexed: 10 = November
-  const [selectedDay, setSelectedDay] = useState<number | null>(15);
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+
+  const parsedEvents = events
+    .map((event) => ({ event, parsed: parseEventDate(event.date) }))
+    .filter((item) => item.parsed)
+    .sort((a, b) => {
+      if (!a.parsed || !b.parsed) return 0;
+      return new Date(a.parsed.year, a.parsed.month, a.parsed.day).getTime() -
+        new Date(b.parsed.year, b.parsed.month, b.parsed.day).getTime();
+    });
+
+  const monthEvents = parsedEvents.filter((item) =>
+    item.parsed && item.parsed.month === month && item.parsed.year === year
+  );
+
+  const eventDays = monthEvents.reduce<Record<number, Event | undefined>>((acc, item) => {
+    if (item.parsed) acc[item.parsed.day] = item.event;
+    return acc;
+  }, {});
 
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -52,12 +90,16 @@ export default function Calendar() {
   const isToday = (d: number) =>
     d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
 
-  const toggleRsvp = async (day: number) => {
-    const ev = dayToEvent[day];
-    if (!ev) return;
+  const toggleEventRsvp = async (ev: Event) => {
     if (ev.rsvp) await unrsvpEvent(ev.id);
     else await rsvpEvent(ev.id);
     qc.invalidateQueries({ queryKey: getGetEventsQueryKey() });
+  };
+
+  const toggleRsvp = async (day: number) => {
+    const ev = eventDays[day];
+    if (!ev) return;
+    await toggleEventRsvp(ev);
   };
 
   const selectedEvent = selectedDay ? eventDays[selectedDay] : null;
@@ -127,7 +169,7 @@ export default function Calendar() {
             style={{ marginTop: "12px", width: "100%" }}
             onClick={() => toggleRsvp(selectedDay!)}
           >
-            {selectedEvent.rsvp ? "✓ RSVP'd — Cancel" : "RSVP to this event"}
+            {selectedEvent.rsvp ? "Going - Cancel" : "RSVP to this event"}
           </button>
         </div>
       )}
@@ -139,8 +181,9 @@ export default function Calendar() {
           Upcoming Events
         </h3>
         <div className="cal-events-list">
-          {events.map((ev, idx) => {
-            const day = [13, 15, 20, 22][idx] ?? idx + 1;
+          {parsedEvents.map(({ event: ev, parsed }) => {
+            if (!parsed) return null;
+            const day = parsed.day;
             const rsvpd = ev.rsvp;
             return (
               <div
@@ -150,19 +193,18 @@ export default function Calendar() {
               >
                 <div className="cal-event-date-box" style={{ background: categoryColor[ev.category] + "18", borderColor: categoryColor[ev.category] + "44" }}>
                   <span className="cal-event-day-num" style={{ color: categoryColor[ev.category] }}>{day}</span>
-                  <span className="cal-event-month-lbl">Nov</span>
+                  <span className="cal-event-month-lbl">{MONTHS[parsed.month].slice(0, 3)}</span>
                 </div>
                 <div className="cal-event-row-info">
                   <div className="cal-event-row-name">{ev.name}</div>
                   <div className="cal-event-row-meta">
-                    <i className="fas fa-clock"></i> {ev.date.split(",")[1]?.trim()} &nbsp;·&nbsp;
-                    <i className="fas fa-map-marker-alt"></i> {ev.location}
+                    <i className="fas fa-clock"></i> {parsed.time || "Time TBA"} &nbsp;-&nbsp; <i className="fas fa-map-marker-alt"></i> {ev.location}
                   </div>
                 </div>
                 <button
                   className={`btn btn-sm ${rsvpd ? "btn-success-soft" : "btn-outline"}`}
                   style={{ flexShrink: 0 }}
-                  onClick={e => { e.stopPropagation(); toggleRsvp(day); }}
+                  onClick={e => { e.stopPropagation(); toggleEventRsvp(ev); }}
                 >
                   {rsvpd ? <><i className="fas fa-check"></i> Going</> : "RSVP"}
                 </button>
