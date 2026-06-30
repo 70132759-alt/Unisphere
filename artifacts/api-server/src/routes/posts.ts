@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq, and, desc, inArray, sql } from "drizzle-orm";
-import { db, postsTable, commentsTable, likesTable, usersTable } from "@workspace/db";
+import { db, postsTable, commentsTable, likesTable, notificationsTable, usersTable } from "@workspace/db";
 import { CreatePostBody, CreateCommentBody } from "@workspace/api-zod";
 import { requireAuth, getCurrentUserId } from "../lib/currentUser";
 import { relativeTime } from "../lib/time";
@@ -118,6 +118,22 @@ router.post("/:id/like", async (req, res) => {
       .update(postsTable)
       .set({ likesCount: sql`${postsTable.likesCount} + 1` })
       .where(eq(postsTable.id, postId));
+
+    const [post] = await db
+      .select({ authorId: postsTable.authorId, content: postsTable.content })
+      .from(postsTable)
+      .where(eq(postsTable.id, postId));
+
+    if (post && post.authorId !== userId) {
+      await db.insert(notificationsTable).values({
+        userId: post.authorId,
+        actorId: userId,
+        type: "like",
+        action: "liked your post",
+        detail: post.content.length > 80 ? `${post.content.slice(0, 77)}...` : post.content,
+        postId,
+      });
+    }
   }
   await returnPost(userId, postId, res);
 });
@@ -151,6 +167,23 @@ router.post("/:id/comments", async (req, res) => {
     .update(postsTable)
     .set({ commentsCount: sql`${postsTable.commentsCount} + 1` })
     .where(eq(postsTable.id, postId));
+
+  const [post] = await db
+    .select({ authorId: postsTable.authorId })
+    .from(postsTable)
+    .where(eq(postsTable.id, postId));
+
+  if (post && post.authorId !== userId) {
+    await db.insert(notificationsTable).values({
+      userId: post.authorId,
+      actorId: userId,
+      type: "comment",
+      action: "commented on your post",
+      detail: comment.text.length > 80 ? `${comment.text.slice(0, 77)}...` : comment.text,
+      postId,
+    });
+  }
+
   const [author] = await db.select().from(usersTable).where(eq(usersTable.id, userId));
   if (!author) { res.status(500).json({ error: "Author not found" }); return; }
   res.status(201).json({
@@ -175,5 +208,3 @@ async function returnPost(userId: number, postId: number, res: Parameters<Parame
 }
 
 export default router;
-
-

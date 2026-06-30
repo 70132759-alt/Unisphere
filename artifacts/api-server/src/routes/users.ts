@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq, and, ne, sql } from "drizzle-orm";
-import { db, usersTable, followsTable } from "@workspace/db";
+import { db, usersTable, followsTable, notificationsTable } from "@workspace/db";
 import { UpdateCurrentUserBody } from "@workspace/api-zod";
 import { requireAuth, getCurrentUserId } from "../lib/currentUser";
 
@@ -71,6 +71,14 @@ router.post("/:id/follow", async (req, res) => {
       .update(usersTable)
       .set({ followersCount: sql`${usersTable.followersCount} + 1` })
       .where(eq(usersTable.id, followedId));
+
+    await db.insert(notificationsTable).values({
+      userId: followedId,
+      actorId: userId,
+      type: "follow",
+      action: "started following you",
+      detail: "",
+    });
   }
   res.json({ ok: true });
 });
