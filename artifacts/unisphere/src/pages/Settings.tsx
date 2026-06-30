@@ -72,11 +72,7 @@ export default function Settings() {
   const [notifFollows, setNotifFollows]     = useState(true);
   const [notifEvents, setNotifEvents]       = useState(false);
   const [notifMessages, setNotifMessages]   = useState(true);
-  const [privPublic, setPrivPublic]         = useState(true);
-  const [privActivity, setPrivActivity]     = useState(false);
-  const [privSearch, setPrivSearch]         = useState(true);
   const [compactFeed, setCompactFeed]       = useState(false);
-  const [emailDigest, setEmailDigest]       = useState(true);
   const [fontSize, setFontSize]             = useState<FontSize>("Medium");
   const [saved, setSaved]                   = useState(false);
   const [toast, setToast]                   = useState<string | null>(null);
@@ -126,10 +122,6 @@ export default function Settings() {
     setNotifFollows(read("uni-notif-follows", true));
     setNotifEvents(read("uni-notif-events", false));
     setNotifMessages(read("uni-notif-messages", true));
-    setEmailDigest(read("uni-email-digest", true));
-    setPrivPublic(read("uni-priv-public", true));
-    setPrivActivity(read("uni-priv-activity", false));
-    setPrivSearch(read("uni-priv-search", true));
     const compact = read("uni-compact", false);
     setCompactFeed(compact);
     document.body.classList.toggle("compact-feed", compact);
@@ -209,6 +201,7 @@ export default function Settings() {
         <NavRow label="Email" sub={currentUser?.email ?? ""} onClick={info("Email", "Your account email is managed by your sign-in provider.")} />
         <NavRow label="Major / Course" sub={currentUser?.major || "Not set â€” edit your profile"} onClick={info("Major / Course", "Your course or field of study. Edit it from your profile page.")} />
         <NavRow label="Change Password" onClick={info("Change Password", "Passwords are handled securely by your sign-in provider. Use 'Forgot password' on the sign-in screen to reset.")} />
+        <NavRow label="Data & downloads" sub="Download a copy of your profile and posts" onClick={downloadData} />
       </Section>
 
       {/* Notifications */}
@@ -218,17 +211,8 @@ export default function Settings() {
         <Row label="New followers" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifFollows}   onChange={toggleHandler("uni-notif-follows", setNotifFollows)} />} />
         <Row label="Event reminders" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifEvents}    onChange={toggleHandler("uni-notif-events", setNotifEvents)} />} />
         <Row label="Direct messages" sub="Local preference - controls what appears in Notifications" right={<Toggle on={notifMessages}  onChange={toggleHandler("uni-notif-messages", setNotifMessages)} />} />
-        <Row label="Weekly email digest" sub="Local preference - saved for email updates" right={<Toggle on={emailDigest}    onChange={toggleHandler("uni-email-digest", setEmailDigest)} />} />
       </Section>
 
-      {/* Privacy */}
-      <Section title="Privacy & Safety" icon="fas fa-shield-alt">
-        <Row label="Public profile" sub="Local preference - saved on this device" right={<Toggle on={privPublic} onChange={toggleHandler("uni-priv-public", setPrivPublic)} />} />
-        <Row label="Show activity status" sub="Local preference - saved on this device" right={<Toggle on={privActivity} onChange={toggleHandler("uni-priv-activity", setPrivActivity)} />} />
-        <Row label="Appear in search" sub="Local preference - saved on this device" right={<Toggle on={privSearch} onChange={toggleHandler("uni-priv-search", setPrivSearch)} />} />
-        <NavRow label="Blocked accounts" sub="Manage who can't see your profile" onClick={() => setModal({ title: "Blocked accounts", body: <p>You haven't blocked anyone. Blocked accounts will appear here.</p> })} />
-        <NavRow label="Data & downloads" sub="Download a copy of your data" onClick={downloadData} />
-      </Section>
 
       {/* Appearance */}
       <Section title="Appearance" icon="fas fa-paint-brush">
@@ -240,7 +224,7 @@ export default function Settings() {
       {/* About */}
       <Section title="About Unisphere" icon="fas fa-info-circle">
         <NavRow label="Terms of Service" onClick={info("Terms of Service", "By using Unisphere you agree to use the platform respectfully, follow your university's code of conduct, and not misuse other students' data.")} />
-        <NavRow label="Privacy Policy" onClick={info("Privacy Policy", "We store only what's needed to run your campus network. You can download a copy of your data any time from Privacy & Safety.")} />
+        <NavRow label="Privacy Policy" onClick={info("Privacy Policy", "We store only what's needed to run your campus network. You can download a copy of your data any time from the Account section.")} />
         <NavRow label="Help & Support" onClick={info("Help & Support", "Need a hand? Reach out to your campus IT team or email support@unisphere.app and we'll get back to you.")} />
         <NavRow label="Send Feedback" onClick={() => setModal({
           title: "Send Feedback",
