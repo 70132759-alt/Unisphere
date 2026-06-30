@@ -117,7 +117,7 @@ export default function Events() {
     });
 
     if (!response.ok) {
-      console.error("Could not delete event");
+      window.alert("Could not delete event. Please try again.");
       return;
     }
 

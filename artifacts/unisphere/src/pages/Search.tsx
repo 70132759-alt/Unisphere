@@ -9,7 +9,7 @@ type SearchResultsWithJobs = {
 export default function Search() {
   const qs = useLocationSearch();
   const q = (new URLSearchParams(qs).get("q") ?? "").trim();
-  const { data, isLoading } = useSearch(
+  const { data, isLoading, isError } = useSearch(
     { q },
     { query: { enabled: q.length > 0, queryKey: getSearchQueryKey({ q }) } },
   );
@@ -41,10 +41,16 @@ export default function Search() {
         {q && isLoading && (
           <div className="card search-state">
             <i className="fas fa-spinner fa-spin"></i>
-            <p>Searching…</p>
+            <p>Searching...</p>
           </div>
         )}
-        {q && !isLoading && total === 0 && (
+        {q && isError && (
+          <div className="card search-state">
+            <i className="fas fa-triangle-exclamation"></i>
+            <p>Search failed. Please check your connection and try again.</p>
+          </div>
+        )}
+        {q && !isLoading && !isError && total === 0 && (
           <div className="card search-state">
             <i className="far fa-frown"></i>
             <p>No results for &ldquo;{q}&rdquo;. Try a different search.</p>
@@ -53,7 +59,7 @@ export default function Search() {
 
         {users.length > 0 && (
           <div className="card search-group">
-            <h3 className="search-group-title">People · {users.length}</h3>
+            <h3 className="search-group-title">People - {users.length}</h3>
             {users.map(u => (
               <Link key={u.id} href={`/profile/${u.id}`} className="search-result-row">
                 <img src={u.avatar} alt={u.name} className="avatar-img" />
@@ -69,7 +75,7 @@ export default function Search() {
 
         {societies.length > 0 && (
           <div className="card search-group">
-            <h3 className="search-group-title">Societies · {societies.length}</h3>
+            <h3 className="search-group-title">Societies - {societies.length}</h3>
             {societies.map(s => (
               <Link key={s.id} href="/societies" className="search-result-row">
                 <div className="search-result-icon"><i className={s.icon}></i></div>
@@ -100,7 +106,7 @@ export default function Search() {
         )}
         {posts.length > 0 && (
           <div className="card search-group">
-            <h3 className="search-group-title">Posts · {posts.length}</h3>
+            <h3 className="search-group-title">Posts - {posts.length}</h3>
             {posts.map(p => (
               <Link key={p.id} href="/feed" className="search-result-row">
                 <img src={p.avatar} alt={p.author} className="avatar-img" />

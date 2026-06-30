@@ -56,7 +56,7 @@ export default function Notifications() {
     });
 
     if (!response.ok) {
-      console.error("Failed to delete notification");
+      window.alert("Could not delete notification. Please try again.");
       return;
     }
 

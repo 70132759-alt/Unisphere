@@ -146,7 +146,7 @@ export default function Settings() {
 
   const handleSave = () => {
     setSaved(true);
-    showToast("All changes saved âœ“");
+    showToast("All changes saved");
     setTimeout(() => setSaved(false), 2000);
   };
 
@@ -159,7 +159,7 @@ export default function Settings() {
       if (!res) { showToast("Photo upload failed. Please try again."); return; }
       await updateCurrentUser({ avatar: (res.objectPath.startsWith("http") ? res.objectPath : `/api/storage${res.objectPath}`) });
       qc.invalidateQueries({ queryKey: getGetCurrentUserQueryKey() });
-      showToast("Profile photo updated âœ“");
+      showToast("Profile photo updated");
     } catch {
       showToast("Photo upload failed. Please try again.");
     }
@@ -174,7 +174,7 @@ export default function Settings() {
     a.download = "unisphere-data.json";
     a.click();
     URL.revokeObjectURL(url);
-    showToast("Your data is downloadingâ€¦");
+    showToast("Your data is downloading...");
   };
 
   const info = (title: string, text: string) => () => setModal({ title, body: <p style={{ lineHeight: 1.6 }}>{text}</p> });

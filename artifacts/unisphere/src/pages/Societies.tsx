@@ -83,7 +83,7 @@ export default function Societies() {
     });
 
     if (!response.ok) {
-      console.error("Could not delete society");
+      window.alert("Could not delete society. Please try again.");
       return;
     }
 
