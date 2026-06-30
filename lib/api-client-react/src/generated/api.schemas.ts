@@ -190,6 +190,7 @@ export interface SearchResults {
   users: UserSuggestion[];
   posts: Post[];
   societies: Society[];
+  jobs: Job[];
 }
 
 export interface UploadUrlRequest {
@@ -225,9 +226,4 @@ export interface ErrorEnvelope {
 export type SearchParams = {
 q: string;
 };
-
-
-
-
-
 

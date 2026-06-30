@@ -1,6 +1,10 @@
 import { Link, useSearch as useLocationSearch } from "wouter";
 import Layout from "@/components/Layout";
-import { useSearch, getSearchQueryKey } from "@workspace/api-client-react";
+import { useSearch, getSearchQueryKey, type Job } from "@workspace/api-client-react";
+
+type SearchResultsWithJobs = {
+  jobs?: Job[];
+};
 
 export default function Search() {
   const qs = useLocationSearch();
@@ -13,7 +17,8 @@ export default function Search() {
   const users = data?.users ?? [];
   const posts = data?.posts ?? [];
   const societies = data?.societies ?? [];
-  const total = users.length + posts.length + societies.length;
+  const jobs = (data as SearchResultsWithJobs | undefined)?.jobs ?? [];
+  const total = users.length + posts.length + societies.length + jobs.length;
 
   return (
     <Layout>
@@ -30,7 +35,7 @@ export default function Search() {
         {!q && (
           <div className="card search-state">
             <i className="fas fa-search"></i>
-            <p>Search for students, posts and societies across your campus.</p>
+            <p>Search for students, posts, societies and jobs across your campus.</p>
           </div>
         )}
         {q && isLoading && (
@@ -78,6 +83,21 @@ export default function Search() {
           </div>
         )}
 
+        {jobs.length > 0 && (
+          <div className="card search-group">
+            <h3 className="search-group-title">Jobs - {jobs.length}</h3>
+            {jobs.map(j => (
+              <Link key={j.id} href="/jobs" className="search-result-row">
+                <img src={j.logo} alt={j.company} className="avatar-img" />
+                <div className="search-result-text">
+                  <div className="search-result-name">{j.title}</div>
+                  <div className="search-result-sub">{j.company} - {j.location}</div>
+                </div>
+                <i className="fas fa-chevron-right chev"></i>
+              </Link>
+            ))}
+          </div>
+        )}
         {posts.length > 0 && (
           <div className="card search-group">
             <h3 className="search-group-title">Posts · {posts.length}</h3>

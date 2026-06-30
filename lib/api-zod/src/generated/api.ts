@@ -504,7 +504,8 @@ export const SearchResponse = zod.object({
   "icon": zod.string(),
   "members": zod.number(),
   "joined": zod.boolean()
-}))
+})),
+  "jobs": zod.array(GetJobsResponseItem)
 })
 
 
@@ -582,8 +583,4 @@ be protected with authentication or ACL checks based on the use case.
 export const GetStorageObjectParams = zod.object({
   "objectPath": zod.coerce.string().describe('Object path within the private object dir (e.g. `uploads\/some-uuid`).')
 })
-
-
-
-
 

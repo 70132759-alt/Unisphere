@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useClerk } from "@clerk/react";
-import { useGetCurrentUser, useSearch, getSearchQueryKey, useGetNotifications } from "@workspace/api-client-react";
+import { useGetCurrentUser, useSearch, getSearchQueryKey, useGetNotifications, type Job } from "@workspace/api-client-react";
+
+type SearchResultsWithJobs = {
+  jobs?: Job[];
+};
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,7 +35,8 @@ export default function Header() {
   const users = results?.users ?? [];
   const societies = results?.societies ?? [];
   const posts = results?.posts ?? [];
-  const total = users.length + societies.length + posts.length;
+  const jobs = (results as SearchResultsWithJobs | undefined)?.jobs ?? [];
+  const total = users.length + societies.length + posts.length + jobs.length;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -84,6 +89,15 @@ export default function Header() {
                 </div>
               </div>
             ))}
+            {jobs.slice(0, 3).map(j => (
+              <div key={`j${j.id}`} className="search-item" onClick={() => { closeSearch(); navigate("/jobs"); }}>
+                <img src={j.logo} alt={j.company} />
+                <div className="search-item-text">
+                  <div>{j.title}</div>
+                  <div>{j.company} - {j.location}</div>
+                </div>
+              </div>
+            ))}
             {posts.slice(0, 3).map(p => (
               <div key={`p${p.id}`} className="search-item" onClick={() => { closeSearch(); navigate("/feed"); }}>
                 <img src={p.avatar} alt={p.author} />
@@ -120,7 +134,7 @@ export default function Header() {
           <i className="fas fa-search"></i>
           <input
             type="text"
-            placeholder="Search students, groups, or jobs..."
+            placeholder="Search students, societies, posts, or jobs..."
             value={searchQuery}
             onChange={e => { setSearchQuery(e.target.value); setShowDropdown(e.target.value.length > 0); }}
             onFocus={() => { if (searchQuery.length > 0) setShowDropdown(true); }}
@@ -178,7 +192,7 @@ export default function Header() {
           <input
             ref={mobileSearchRef}
             type="text"
-            placeholder="Search students, groups, or jobs..."
+            placeholder="Search students, societies, posts, or jobs..."
             value={searchQuery}
             onChange={e => { setSearchQuery(e.target.value); setShowDropdown(e.target.value.length > 0); }}
             onKeyDown={e => e.key === "Enter" && goToResults()}

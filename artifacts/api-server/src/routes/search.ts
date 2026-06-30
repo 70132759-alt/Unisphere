@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq, or, ilike, desc, and, ne } from "drizzle-orm";
-import { db, usersTable, postsTable, societiesTable, followsTable } from "@workspace/db";
+import { db, usersTable, postsTable, societiesTable, followsTable, jobsTable } from "@workspace/db";
 import { requireAuth, getCurrentUserId } from "../lib/currentUser";
 import { serializePosts } from "./posts";
 
@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
   const userId = getCurrentUserId(req);
   const q = String(req.query.q ?? "").trim();
   if (!q) {
-    res.json({ users: [], posts: [], societies: [] });
+    res.json({ users: [], posts: [], societies: [], jobs: [] });
     return;
   }
   const like = `%${q}%`;
@@ -68,7 +68,28 @@ router.get("/", async (req, res) => {
     joined: false,
   }));
 
-  res.json({ users, posts, societies });
+  const jobRows = await db
+    .select()
+    .from(jobsTable)
+    .where(
+      or(
+        ilike(jobsTable.title, like),
+        ilike(jobsTable.company, like),
+        ilike(jobsTable.location, like),
+        ilike(jobsTable.type, like),
+        ilike(jobsTable.salary, like),
+      ),
+    )
+    .orderBy(desc(jobsTable.createdAt))
+    .limit(10);
+
+  const jobs = jobRows.map((j) => ({
+    ...j,
+    saved: false,
+    applied: false,
+  }));
+
+  res.json({ users, posts, societies, jobs });
 });
 
 export default router;
