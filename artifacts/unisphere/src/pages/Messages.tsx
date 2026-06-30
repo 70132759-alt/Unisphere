@@ -340,7 +340,8 @@ export default function Messages() {
                     >
                       <button
                         type="button"
-                        title="Delete message"
+                        className="message-delete-btn"
+                          title="Delete message"
                         onClick={() => deleteSingleMessage(msg.id)}
                         style={{
                           position: "absolute",
@@ -506,6 +507,8 @@ export default function Messages() {
     </Layout>
   );
 }
+
+
 
 
 

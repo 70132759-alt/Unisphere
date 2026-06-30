@@ -1322,6 +1322,26 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   align-self: flex-start;
   color: var(--text-main);
 }
+
+.message-delete-btn {
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.message:hover .message-delete-btn,
+.message:focus-within .message-delete-btn {
+  opacity: 1;
+}
+
+.message-delete-btn:hover {
+  transform: scale(1.08);
+}
+
+@media (hover: none) {
+  .message-delete-btn {
+    opacity: 0.35;
+  }
+}
 .message.sent {
   background: var(--primary-color);
   color: white;
