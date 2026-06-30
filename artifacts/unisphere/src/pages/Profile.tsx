@@ -135,11 +135,11 @@ export default function Profile() {
       <div className="profile-page">
 
         {/* ── Header card ── */}
-        <div className="card" style={{ padding: "24px 28px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
+        <div className="card profile-header-card" style={{ padding: "24px 28px" }}>
+          <div className="profile-header-top" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
 
             {/* Left: avatar + name */}
-            <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+            <div className="profile-identity" style={{ display: "flex", gap: "16px", alignItems: "center" }}>
               <div style={{ position: "relative", flexShrink: 0 }}>
                 <img
                   src={profile.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=4f46e5&color=fff&size=80`}
@@ -164,7 +164,7 @@ export default function Profile() {
                 )}
               </div>
 
-              <div>
+              <div className="profile-title-block">
                 <h2 style={{ fontSize: "22px", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>{profile.name}</h2>
                 {profile.major && (
                   <p style={{ margin: "3px 0 0", fontSize: "14px", color: "var(--text-secondary)" }}>{profile.major}</p>
@@ -173,7 +173,7 @@ export default function Profile() {
             </div>
 
             {/* Right: action buttons */}
-            <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
+            <div className="profile-action-buttons" style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
               {isOwn ? (
                 <>
                   <button className="btn btn-outline btn-medium-small" onClick={() => setIsEditing(!isEditing)}>
@@ -197,15 +197,15 @@ export default function Profile() {
           </div>
 
           {/* Stats row */}
-            <div style={{ display: "flex", gap: "0", margin: "20px 0 18px" }}>
+            <div className="profile-summary-stats" style={{ display: "flex", gap: "0", margin: "20px 0 18px" }}>
                 {[
                    { value: profile.postsCount ?? 0, label: "Posts" },
                    { value: (profile.followersCount ?? 0).toLocaleString(), label: "Followers" },
                    { value: profile.followingCount ?? 0, label: "Following" },
                 ].map((s, i) => (
               <div key={s.label} style={{ display: "flex", alignItems: "center" }}>
-                {i > 0 && <div style={{ width: 1, height: 32, background: "var(--border-html)", margin: "0 20px" }} />}
-                <div style={{ textAlign: "center" }}>
+                {i > 0 && <div className="profile-stat-divider" style={{ width: 1, height: 32, background: "var(--border-html)", margin: "0 20px" }} />}
+                <div className="profile-stat-item" style={{ textAlign: "center" }}>
                   <div style={{ fontSize: "20px", fontWeight: 700, lineHeight: 1.1, color: "var(--text-primary)" }}>{s.value}</div>
                   <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>{s.label}</div>
                 </div>
@@ -215,7 +215,7 @@ export default function Profile() {
 
           {/* Tags row */}
           {tags.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            <div className="profile-tag-list" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
               {tags.map((tag, i) => {
                 const c = TAG_COLORS[i % TAG_COLORS.length];
                 return (
@@ -231,7 +231,7 @@ export default function Profile() {
 
         {/* ── Inline edit form ── */}
         {isEditing && (
-          <div className="card" style={{ padding: "24px 28px" }}>
+          <div className="card profile-header-card" style={{ padding: "24px 28px" }}>
             <h3 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Edit Profile</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <input
@@ -348,7 +348,7 @@ export default function Profile() {
         {/* ── About tab ── */}
         {activeTab === "about" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div className="card" style={{ padding: "24px 28px" }}>
+            <div className="card profile-header-card" style={{ padding: "24px 28px" }}>
               <h3 style={{ fontSize: "16px", fontWeight: 700, marginBottom: "18px" }}>About</h3>
               {profile.bio && (
                 <div className="about-item"><i className="fas fa-university"></i> <span>{profile.bio}</span></div>
@@ -370,9 +370,9 @@ export default function Profile() {
             </div>
 
             {tags.length > 0 && (
-              <div className="card" style={{ padding: "24px 28px" }}>
+              <div className="card profile-header-card" style={{ padding: "24px 28px" }}>
                 <h3 style={{ fontSize: "16px", fontWeight: 700, marginBottom: "16px" }}>Interests</h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                <div className="profile-tag-list" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                   {tags.map((tag, i) => {
                     const c = TAG_COLORS[i % TAG_COLORS.length];
                     return (
@@ -390,7 +390,7 @@ export default function Profile() {
 
         {/* ── Connections tab ── */}
         {activeTab === "connections" && (
-          <div className="card" style={{ padding: "24px 28px" }}>
+          <div className="card profile-header-card" style={{ padding: "24px 28px" }}>
             <h3 style={{ fontSize: "16px", fontWeight: 700, marginBottom: "16px" }}>
               Connections · {(profile.followersCount ?? 0).toLocaleString()}
             </h3>
@@ -410,8 +410,4 @@ export default function Profile() {
     </Layout>
   );
 }
-
-
-
-
 

@@ -222,7 +222,7 @@ html.font-large  { zoom: 1.15; }
   a { text-decoration: none; color: inherit; }
 }
 
-/* ─── LAYOUT ─────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .app-shell {
   min-height: 100vh;
@@ -248,7 +248,7 @@ html.font-large  { zoom: 1.15; }
   gap: 16px;
 }
 
-/* ─── HEADER ──────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 #appHeader {
   position: fixed;
@@ -408,7 +408,7 @@ html.font-large  { zoom: 1.15; }
 }
 .icon-btn:hover { background: var(--bg); }
 
-/* ─── SIDEBARS ────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ SIDEBARS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .left-sidebar {
   width: var(--sidebar-width);
@@ -474,7 +474,7 @@ html.font-large  { zoom: 1.15; }
   gap: 16px;
 }
 
-/* ─── CARDS ───────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .card {
   background: var(--surface);
@@ -490,7 +490,7 @@ html.font-large  { zoom: 1.15; }
   color: var(--text-main);
 }
 
-/* ─── AVATARS ─────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ AVATARS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .avatar-img {
   border-radius: 50%;
@@ -500,7 +500,7 @@ html.font-large  { zoom: 1.15; }
 }
 .avatar-lg { width: 72px !important; height: 72px !important; }
 
-/* ─── STORIES ─────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ STORIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .stories-container {
   display: flex;
@@ -553,7 +553,7 @@ html.font-large  { zoom: 1.15; }
   text-overflow: ellipsis;
 }
 
-/* ─── POST CARDS ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ POST CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .post-card { padding: 0; overflow: hidden; }
 
@@ -672,7 +672,7 @@ html.font-large  { zoom: 1.15; }
 }
 .comment-input-wrap button:hover { background: var(--primary-dark); }
 
-/* ─── COMPOSE ─────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ COMPOSE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .compose-modal {
   position: fixed;
@@ -730,7 +730,7 @@ html.font-large  { zoom: 1.15; }
 .compose-modal-footer .compose-action:hover { color: var(--text-main); background: var(--bg); }
 .compose-modal-footer .compose-action:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
 
-/* Compact feed (Settings → Appearance) */
+/* Compact feed (Settings â†’ Appearance) */
 body.compact-feed #feedContainer .post-card { margin-bottom: 10px; padding-top: 12px; padding-bottom: 12px; }
 body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 
@@ -750,7 +750,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   font-size: 13px;
 }
 
-/* ─── BUTTONS ─────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .btn {
   display: inline-flex;
@@ -774,7 +774,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   font-size: 14px;
 }
 
-/* ─── TOAST ───────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ TOAST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .toast-notification {
   position: fixed;
@@ -800,7 +800,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* ─── BACKDROP ────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ BACKDROP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .drawer-backdrop {
   position: fixed;
@@ -811,7 +811,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ─── BOTTOM NAV ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ BOTTOM NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .bottom-nav {
   position: fixed;
@@ -925,7 +925,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 }
 .more-drawer-logout:hover { background: #fecaca; }
 
-/* ─── SKELETON ────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ SKELETON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .skeleton {
   background: linear-gradient(90deg, var(--border-color) 25%, #f0f0f0 50%, var(--border-color) 75%);
@@ -942,7 +942,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .sk-block  { height: 12px; width: 100%; margin-bottom: 8px; }
 .sk-img    { height: 180px; width: 100%; margin-top: 8px; border-radius: 12px; }
 
-/* ─── RIGHT SIDEBAR WIDGETS ───────────────────────────────────────────── */
+/* â”€â”€â”€ RIGHT SIDEBAR WIDGETS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .trending-item {
   display: flex;
@@ -1010,12 +1010,12 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   color: white;
 }
 
-/* ─── UTILITY: desktop-only / mobile-only ─────────────────────────────── */
+/* â”€â”€â”€ UTILITY: desktop-only / mobile-only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .desktop-only { display: flex; }
 .mobile-only  { display: none; }
 
-/* ─── ELEVATION ───────────────────────────────────────────────────────── */
+/* â”€â”€â”€ ELEVATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 @layer utilities {
   input[type="search"]::-webkit-search-cancel-button { @apply hidden; }
@@ -1053,7 +1053,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   .border.active-elevate-2:not(.no-active-interaction-elevate)::after { inset: -1px; }
 }
 
-/* ─── RESPONSIVE ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 @media (max-width: 1080px) {
   .right-sidebar { display: none; }
@@ -1068,7 +1068,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   .mobile-only  { display: flex; }
 }
 
-/* ─── BUTTONS (shared) ────────────────────────────────────────────────── */
+/* â”€â”€â”€ BUTTONS (shared) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .btn-outline {
   background: transparent;
@@ -1108,7 +1108,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   border: 1.5px solid #6ee7b7;
 }
 
-/* ─── FILTER TABS (Events, Jobs) ──────────────────────────────────────── */
+/* â”€â”€â”€ FILTER TABS (Events, Jobs) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .filter-tabs {
   display: flex;
@@ -1134,14 +1134,14 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   font-weight: 600;
 }
 
-/* ─── RIGHT SIDEBAR — TRENDING FIX ───────────────────────────────────── */
+/* â”€â”€â”€ RIGHT SIDEBAR â€” TRENDING FIX â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .trending-text { flex: 1; }
 .trending-text div:first-child { font-size: 14px; font-weight: 600; }
 .trending-text div:last-child  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 .trending-icon { color: #10b981; font-size: 13px; margin-left: auto; }
 
-/* ─── EVENTS PAGE ─────────────────────────────────────────────────────── */
+/* â”€â”€â”€ EVENTS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .events-grid {
   display: grid;
@@ -1191,7 +1191,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 }
 .attendee-avatars img:first-child { margin-left: 0; }
 
-/* ─── JOBS PAGE ───────────────────────────────────────────────────────── */
+/* â”€â”€â”€ JOBS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .company-logo {
   width: 52px;
@@ -1226,7 +1226,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 }
 .save-btn:hover, .save-btn.saved { color: var(--primary-color); }
 
-/* ─── SOCIETIES PAGE ──────────────────────────────────────────────────── */
+/* â”€â”€â”€ SOCIETIES PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .societies-grid {
   display: grid;
@@ -1260,7 +1260,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .map-search-wrap input { border: none; background: transparent; outline: none; font-size: 14px; color: var(--text-main); width: 100%; }
 .map-search-wrap input::placeholder { color: var(--text-muted); }
 
-/* ─── MESSAGES PAGE ───────────────────────────────────────────────────── */
+/* â”€â”€â”€ MESSAGES PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .msg-card { padding: 0 !important; overflow: hidden; height: calc(100vh - 120px); min-height: 500px; }
 .chat-layout { display: flex; height: 100%; }
@@ -1389,7 +1389,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   .mobile-hidden { display: none !important; }
 }
 
-/* ─── PROFILE PAGE ────────────────────────────────────────────────────── */
+/* â”€â”€â”€ PROFILE PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .profile-page { }
 .profile-cover { position: relative; height: 200px; border-radius: 16px; overflow: hidden; margin-bottom: -60px; }
@@ -1473,7 +1473,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .connection-name { font-size: 13px; font-weight: 600; }
 .connection-major { font-size: 11px; color: var(--text-muted); }
 
-/* ─── NOTIFICATIONS PAGE ──────────────────────────────────────────────── */
+/* â”€â”€â”€ NOTIFICATIONS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .notif-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
 .notif-filters { display: flex; border: 1.5px solid var(--border-color); border-radius: 8px; overflow: hidden; }
@@ -1539,7 +1539,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .notif-item:hover {
   background: #f8fafc;
 }
-/* ─── SETTINGS PAGE ───────────────────────────────────────────────────── */
+/* â”€â”€â”€ SETTINGS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .settings-profile-banner { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
 .settings-avatar-wrap { position: relative; flex-shrink: 0; }
@@ -1614,7 +1614,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 }
 .settings-logout-btn:hover { background: #fee2e2; }
 
-/* ─── CALENDAR PAGE ───────────────────────────────────────────────────── */
+/* â”€â”€â”€ CALENDAR PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .cal-card { }
 .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -1663,7 +1663,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .cal-event-row-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cal-event-row-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 
-/* ─── CAMPUS MAP PAGE ─────────────────────────────────────────────────── */
+/* â”€â”€â”€ CAMPUS MAP PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .map-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
 .map-header-title { font-size: 20px; font-weight: 700; }
@@ -1721,7 +1721,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
   max-width: 280px;
 }
 
-/* ─── AUTH PAGES ──────────────────────────────────────────────────────── */
+/* â”€â”€â”€ AUTH PAGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .auth-wrapper {
   display: flex;
@@ -1970,7 +1970,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .form-terms a { color: var(--primary-color); }
 .form-terms input { margin-top: 2px; flex-shrink: 0; }
 
-/* ─── COMPOSE CARD (Feed) ─────────────────────────────────────────────── */
+/* â”€â”€â”€ COMPOSE CARD (Feed) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .compose-card { padding: 16px 20px 12px; }
 .compose-card-row {
@@ -2266,7 +2266,7 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ---- Tablet / iPad (834px–1080px handled by existing 1080 rule; refine 768–1024) ---- */
+/* ---- Tablet / iPad (834pxâ€“1080px handled by existing 1080 rule; refine 768â€“1024) ---- */
 @media (min-width: 769px) and (max-width: 1024px) {
   .app-modal { max-width: 70%; }
   .stories-container { gap: 14px; }
@@ -2311,4 +2311,112 @@ body.compact-feed #feedContainer .post-content p { margin-bottom: 6px; }
 .notif-delete-btn:hover {
   background: #fee2e2;
   color: #dc2626;
+}
+/* Profile mobile responsiveness */
+@media (max-width: 768px) {
+  .profile-header-card {
+    padding: 16px !important;
+  }
+
+  .profile-header-top {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+  }
+
+  .profile-identity {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .profile-title-block {
+    min-width: 0;
+  }
+
+  .profile-title-block h2,
+  .profile-title-block p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .profile-action-buttons {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+
+  .profile-action-buttons .btn {
+    width: 100%;
+    justify-content: center;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    white-space: nowrap;
+  }
+
+  .profile-summary-stats {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0 !important;
+    margin: 16px 0 !important;
+  }
+
+  .profile-summary-stats > div {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .profile-stat-divider {
+    margin: 0 8px !important;
+  }
+
+  .profile-stat-item {
+    min-width: 0;
+  }
+
+  .profile-tag-list {
+    gap: 6px !important;
+  }
+
+  .profile-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .profile-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-tab {
+    flex: 1;
+    min-width: max-content;
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .about-item {
+    align-items: flex-start;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-identity {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+  }
+
+  .profile-action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-summary-stats {
+    font-size: 12px;
+  }
+
+  .profile-stat-divider {
+    margin: 0 6px !important;
+  }
 }
