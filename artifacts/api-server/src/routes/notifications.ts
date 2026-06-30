@@ -65,6 +65,16 @@ router.delete("/:id", async (req, res) => {
   res.json({ ok: true });
 });
 
+router.post("/read-all", async (req, res) => {
+  const userId = getCurrentUserId(req);
+
+  await db
+    .update(notificationsTable)
+    .set({ read: true })
+    .where(eq(notificationsTable.userId, userId));
+
+  res.json({ ok: true });
+});
 router.post("/type/:type/read", async (req, res) => {
   const userId = getCurrentUserId(req);
   const type = req.params.type;
