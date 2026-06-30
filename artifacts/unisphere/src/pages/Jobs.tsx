@@ -161,6 +161,18 @@ export default function Jobs() {
 
   return (
     <Layout>
+      <div className="card" style={{ marginBottom: "16px" }}>
+        <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+          <i className="fas fa-user-shield" style={{ color: "var(--accent-html)", marginTop: "3px" }}></i>
+          <div>
+            <h3 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "4px" }}>Verified Opportunity Submission</h3>
+            <p style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: 1.5 }}>
+              In this prototype, verified UOL users can submit jobs and internships. In the production version, official opportunity approval will be handled by Faculty/Admin roles.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {toast && (
         <div className="toast-notification">
           <i className="fas fa-check-circle"></i> {toast}

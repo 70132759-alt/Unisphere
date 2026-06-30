@@ -199,6 +199,18 @@ export default function Events() {
   return (
     <Layout>
       <div className="card" style={{ marginBottom: "16px" }}>
+        <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+          <i className="fas fa-user-shield" style={{ color: "var(--accent-html)", marginTop: "3px" }}></i>
+          <div>
+            <h3 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "4px" }}>Verified Event Submission</h3>
+            <p style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: 1.5 }}>
+              In this prototype, verified UOL users can submit campus events. In the production version, official event approval will be handled by Faculty/Admin roles.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{ marginBottom: "16px" }}>
         <div
           style={{
             display: "flex",
