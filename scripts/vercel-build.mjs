@@ -8,8 +8,6 @@ function run(command, options = {}) {
   });
 }
 
-run("corepack enable");
-run("corepack prepare pnpm@10 --activate");
 run("pnpm --filter @workspace/api-server run build");
 
 run("pnpm --filter @workspace/unisphere run build", {
