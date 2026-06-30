@@ -251,6 +251,45 @@ export default function Settings() {
         </div>
       </Section>
 
+      {/* Role & Access */}
+      <Section title="Role & Access" icon="fas fa-user-shield">
+        <Row
+          label="Current Access"
+          sub="Final prototype model for verified university members"
+          right={
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--accent-html)" }}>
+              Verified UOL User
+            </span>
+          }
+        />
+
+        <div style={{ display: "grid", gap: "10px", marginTop: "12px" }}>
+          <div className="settings-row">
+            <div className="settings-row-text">
+              <span className="settings-row-label">Student</span>
+              <span className="settings-row-sub">Feed, societies, events, jobs, messages, map and profile access</span>
+            </div>
+          </div>
+
+          <div className="settings-row">
+            <div className="settings-row-text">
+              <span className="settings-row-label">Faculty / Teacher</span>
+              <span className="settings-row-sub">Can share academic updates, jobs, internships and event information</span>
+            </div>
+          </div>
+
+          <div className="settings-row">
+            <div className="settings-row-text">
+              <span className="settings-row-label">Admin</span>
+              <span className="settings-row-sub">Full moderation and user-management dashboard planned for production version</span>
+            </div>
+          </div>
+        </div>
+
+        <p style={{ margin: "14px 0 0", fontSize: "12px", color: "var(--text-muted)", lineHeight: 1.5 }}>
+          The final prototype uses a verified UOL-user access model. Separate Student, Faculty and Admin permission levels are part of the documented production scope.
+        </p>
+      </Section>
       {/* Save button */}
       <div style={{ padding: "0 0 24px" }}>
         <button className="btn btn-primary" style={{ width: "100%", padding: "14px" }} onClick={handleSave}>
