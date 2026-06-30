@@ -6,6 +6,7 @@ import {
   Show,
   useClerk,
   useAuth,
+  useUser,
 } from "@clerk/react";
 
 import { shadcn } from "@clerk/themes";
@@ -94,6 +95,10 @@ const clerkAppearance = {
   },
 };
 
+function isUolEmail(email?: string | null) {
+  const normalized = (email ?? "").trim().toLowerCase();
+  return normalized.endsWith("@uol.edu.pk") || normalized.endsWith(".uol.edu.pk");
+}
 function SignInPage() {
   return (
     <>
@@ -122,6 +127,33 @@ function HomeRedirect() {
 }
 
 function Protected({ children }: { children: React.ReactNode }) {
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  const email = user?.primaryEmailAddress?.emailAddress;
+
+  if (isLoaded && user && !isUolEmail(email)) {
+    return (
+      <div className="min-h-[100dvh] w-full flex items-center justify-center bg-white px-6">
+        <div className="w-full max-w-sm rounded-2xl border border-red-100 bg-white p-6 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-red-600">
+            <i className="fas fa-triangle-exclamation"></i>
+          </div>
+          <h1 className="text-lg font-semibold text-slate-900">UOL email required</h1>
+          <p className="mt-2 text-sm text-slate-600">
+            Please use your official UOL email address ending with uol.edu.pk.
+          </p>
+          <button
+            type="button"
+            onClick={() => signOut({ redirectUrl: basePath || "/" })}
+            className="mt-5 w-full h-11 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
+          >
+            Sign out and try again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Show when="signed-in">{children}</Show>

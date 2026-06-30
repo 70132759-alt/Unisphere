@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { useSignIn, useSignUp } from "@clerk/react/legacy";
 
+const isUolEmail = (email: string) => {
+  const normalized = email.trim().toLowerCase();
+  return normalized.endsWith("@uol.edu.pk") || normalized.endsWith(".uol.edu.pk");
+};
 const HERO_IMG =
   "https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80";
 
@@ -230,6 +234,11 @@ function SignUpForm() {
   if (!isLoaded || !signUp || !setActive) return;
 
   setError(null);
+
+  if (!isUolEmail(email)) {
+    setError("Please use your official UOL email address ending with uol.edu.pk.");
+    return;
+  }
   setSubmitting(true);
 
   try {
@@ -339,7 +348,7 @@ function SignUpForm() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@university.edu"
+            placeholder="yourname@uol.edu.pk"
             className={inputClass}
             required
           />
